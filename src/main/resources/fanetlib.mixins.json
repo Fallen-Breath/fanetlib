@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.fallenbreath.fanetlib.mixins",
+  "compatibilityLevel": "{{COMPATIBILITY_LEVEL}}",
+  "mixins": [
+    "access.CustomPayloadC2SPacketAccessor",
+    "access.CustomPayloadS2CPacketAccessor",
+    "access.ServerPlayNetworkHandlerAccessor",
+    "hook.ServerPlayNetworkHandlerMixin",
+    "register.CustomPayloadC2SPacketMixin",
+    "register.CustomPayloadS2CPacketMixin"
+  ],
+  "client": [
+    "access.ClientPlayNetworkHandlerAccessor",
+    "hook.ClientPlayNetworkHandlerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

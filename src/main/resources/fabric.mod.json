@@ -4,25 +4,25 @@
   "version": "${version}",
 
   "name": "${name}",
-  "description": "Template for my fabric mods",
+  "description": "A tiny Minecraft network library for my fabric mods",
   "authors": [
     "Fallen_Breath"
   ],
   "contact": {
     "homepage": "https://modrinth.com",
-    "sources": "https://github.com/Fallen-Breath/fabric-mod-template"
+    "sources": "https://github.com/Fallen-Breath/fanetlib"
   },
 
-  "icon": "assets/template_mod/icon.png",
+  "icon": "assets/fanetlib/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "me.fallenbreath.template_mod.TemplateMod"
+      "me.fallenbreath.fanetlib.FanetlibMod"
     ]
   },
   "mixins": [
-    "template_mod.mixins.json"
+    "fanetlib.mixins.json"
   ],
 
   "depends": {
