@@ -39,11 +39,16 @@ public class FanetlibCustomPayload<P> implements
 	private final PacketCodec<P> codec;
 	private final P userPacket;
 
-	public FanetlibCustomPayload(Identifier id, PacketCodec<P> codec, PacketByteBuf buf)
+	public FanetlibCustomPayload(Identifier id, PacketCodec<P> codec, P userPacket)
 	{
 		this.id = id;
 		this.codec = codec;
-		this.userPacket = codec.decode(buf);
+		this.userPacket = userPacket;
+	}
+
+	public FanetlibCustomPayload(Identifier id, PacketCodec<P> codec, PacketByteBuf buf)
+	{
+		this(id, codec, codec.decode(buf));
 	}
 
 	public P getUserPacket()

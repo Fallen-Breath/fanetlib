@@ -23,6 +23,7 @@ package me.fallenbreath.fanetlib.api;
 import me.fallenbreath.fanetlib.api.handler.C2SPacketHandler;
 import me.fallenbreath.fanetlib.api.handler.S2CPacketHandler;
 import me.fallenbreath.fanetlib.impl.FanetlibRegistry;
+import net.minecraft.network.Packet;
 import net.minecraft.util.Identifier;
 
 public abstract class FanetlibApi
@@ -35,5 +36,15 @@ public abstract class FanetlibApi
 	public static <P> void registerS2CPacket(Identifier id, PacketCodec<P> codec, S2CPacketHandler<P> handler)
 	{
 		FanetlibRegistry.S2C_PLAY.register(id, codec, handler);
+	}
+
+	public static <P> Packet<?> createS2CPacket(Identifier id, P packet)
+	{
+		return FanetlibRegistry.S2C_PLAY.createPacket(id, packet);
+	}
+
+	public static <P> Packet<?> createC2SPacket(Identifier id, P packet)
+	{
+		return FanetlibRegistry.C2S_PLAY.createPacket(id, packet);
 	}
 }
