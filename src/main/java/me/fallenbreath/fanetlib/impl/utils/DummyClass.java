@@ -18,25 +18,8 @@
  * along with fanetlib.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.fallenbreath.fanetlib.api.handler;
+package me.fallenbreath.fanetlib.impl.utils;
 
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
-
-@FunctionalInterface
-public interface C2SPacketHandler<P>
+public class DummyClass
 {
-	void handle(P packet, Context context);
-
-	interface Context
-	{
-		MinecraftServer getServer();
-
-		ServerPlayNetworkHandler getNetworkHandler();
-
-		ServerPlayerEntity getPlayer();
-
-		void runSynced(Runnable runnable);
-	}
 }

@@ -18,8 +18,25 @@
  * along with fanetlib.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.fallenbreath.fanetlib.impl;
+package me.fallenbreath.fanetlib.api;
 
-public class DummyClass
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.client.network.ClientPlayerEntity;
+import org.jetbrains.annotations.Nullable;
+
+@FunctionalInterface
+public interface PacketHandlerS2C<P>
 {
+	void handle(P packet, Context context);
+
+	interface Context
+	{
+		MinecraftClient getClient();
+
+		ClientPlayNetworkHandler getNetworkHandler();
+
+		@Nullable
+		ClientPlayerEntity getPlayer();
+	}
 }

@@ -20,20 +20,18 @@
 
 package me.fallenbreath.fanetlib.api;
 
-import me.fallenbreath.fanetlib.api.handler.C2SPacketHandler;
-import me.fallenbreath.fanetlib.api.handler.S2CPacketHandler;
 import me.fallenbreath.fanetlib.impl.FanetlibRegistry;
 import net.minecraft.network.Packet;
 import net.minecraft.util.Identifier;
 
 public abstract class FanetlibApi
 {
-	public static <P> void registerC2SPacket(Identifier id, PacketCodec<P> codec, C2SPacketHandler<P> handler)
+	public static <P> void registerC2SPacket(Identifier id, PacketCodec<P> codec, PacketHandlerC2S<P> handler)
 	{
 		FanetlibRegistry.C2S_PLAY.register(id, codec, handler);
 	}
 
-	public static <P> void registerS2CPacket(Identifier id, PacketCodec<P> codec, S2CPacketHandler<P> handler)
+	public static <P> void registerS2CPacket(Identifier id, PacketCodec<P> codec, PacketHandlerS2C<P> handler)
 	{
 		FanetlibRegistry.S2C_PLAY.register(id, codec, handler);
 	}

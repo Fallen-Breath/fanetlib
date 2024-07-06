@@ -20,7 +20,7 @@
 
 package me.fallenbreath.fanetlib.mixins.hook;
 
-import me.fallenbreath.fanetlib.api.handler.C2SPacketHandler;
+import me.fallenbreath.fanetlib.api.PacketHandlerC2S;
 import me.fallenbreath.fanetlib.impl.FanetlibCustomPayload;
 import me.fallenbreath.fanetlib.impl.FanetlibRegistry;
 import me.fallenbreath.fanetlib.impl.PacketHandlerContextImpl;
@@ -61,7 +61,7 @@ public abstract class ServerPlayNetworkHandlerMixin
 		Identifier identifier = ((CustomPayloadS2CPacketAccessor) packet).getChannel();
 		//#endif
 
-		RegistryEntry<?, C2SPacketHandler<?>> entry = FanetlibRegistry.C2S_PLAY.getEntry(identifier);
+		RegistryEntry<?, PacketHandlerC2S<?>> entry = FanetlibRegistry.C2S_PLAY.getEntry(identifier);
 		if (entry == null)
 		{
 			return;
@@ -70,7 +70,7 @@ public abstract class ServerPlayNetworkHandlerMixin
 		//#if MC >= 12002
 		//$$ if (packet.payload() instanceof FanetlibCustomPayload fcp && (Object)this instanceof ServerPlayNetworkHandler self)
 		//$$ {
-		//$$ 	handleCustomPayload(fcp, (C2SPacketHandler)entry.getHandler(), self);
+		//$$ 	handleCustomPayload(fcp, (PacketHandlerC2S)entry.getHandler(), self);
 		//$$ 	ci.cancel();
 		//$$ }
 		//#else
@@ -78,7 +78,7 @@ public abstract class ServerPlayNetworkHandlerMixin
 		try
 		{
 			FanetlibCustomPayload<?> payload = new FanetlibCustomPayload<>(identifier, entry.getCodec(), packetByteBuf);
-			handleCustomPayload(payload, (C2SPacketHandler)entry.getHandler(), (ServerPlayNetworkHandler)(Object)this);
+			handleCustomPayload(payload, (PacketHandlerC2S)entry.getHandler(), (ServerPlayNetworkHandler)(Object)this);
 			ci.cancel();
 		}
 		finally
@@ -90,7 +90,7 @@ public abstract class ServerPlayNetworkHandlerMixin
 	}
 
 	@Unique
-	private static <P> void handleCustomPayload(FanetlibCustomPayload<P> payload, C2SPacketHandler<P> handler, ServerPlayNetworkHandler self)
+	private static <P> void handleCustomPayload(FanetlibCustomPayload<P> payload, PacketHandlerC2S<P> handler, ServerPlayNetworkHandler self)
 	{
 		handler.handle(payload.getUserPacket(), new PacketHandlerContextImpl.C2S(self));
 	}

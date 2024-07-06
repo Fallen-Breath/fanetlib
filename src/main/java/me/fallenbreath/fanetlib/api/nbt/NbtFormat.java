@@ -18,13 +18,22 @@
  * along with fanetlib.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.fallenbreath.fanetlib.mixins.register;
+package me.fallenbreath.fanetlib.api.nbt;
 
-import me.fallenbreath.fanetlib.impl.utils.DummyClass;
-import org.spongepowered.asm.mixin.Mixin;
-
-// used in mc >= 1.20.2
-@Mixin(DummyClass.class)
-public abstract class CustomPayloadS2CPacketMixin
+/**
+ * See <a href="https://wiki.vg/NBT">https://wiki.vg/NBT</a>
+ * for the nbt changes between mc < 1.20.2 and mc >= 1.20.2
+ */
+public enum NbtFormat
 {
+	UNKNOWN,
+	OLD,  // <  1.20.2
+	NEW;  // >= 1.20.2
+
+	public static final NbtFormat CURRENT =
+			//#if MC >= 12002
+			//$$ NEW;
+			//#else
+			OLD;
+			//#endif
 }

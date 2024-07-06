@@ -20,7 +20,7 @@
 
 package me.fallenbreath.fanetlib.mixins.register;
 
-import me.fallenbreath.fanetlib.impl.DummyClass;
+import me.fallenbreath.fanetlib.impl.utils.DummyClass;
 import org.spongepowered.asm.mixin.Mixin;
 
 // used in mc >= 1.20.2

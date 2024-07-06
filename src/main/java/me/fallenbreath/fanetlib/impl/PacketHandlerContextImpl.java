@@ -20,8 +20,8 @@
 
 package me.fallenbreath.fanetlib.impl;
 
-import me.fallenbreath.fanetlib.api.handler.C2SPacketHandler;
-import me.fallenbreath.fanetlib.api.handler.S2CPacketHandler;
+import me.fallenbreath.fanetlib.api.PacketHandlerC2S;
+import me.fallenbreath.fanetlib.api.PacketHandlerS2C;
 import me.fallenbreath.fanetlib.mixins.access.ClientPlayNetworkHandlerAccessor;
 import me.fallenbreath.fanetlib.mixins.access.ServerPlayNetworkHandlerAccessor;
 import net.minecraft.client.MinecraftClient;
@@ -34,7 +34,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class PacketHandlerContextImpl
 {
-	public static class S2C implements S2CPacketHandler.Context
+	public static class S2C implements PacketHandlerS2C.Context
 	{
 		private final ClientPlayNetworkHandler networkHandler;
 		private final MinecraftClient client;
@@ -67,7 +67,7 @@ public class PacketHandlerContextImpl
 		}
 	}
 
-	public static class C2S implements C2SPacketHandler.Context
+	public static class C2S implements PacketHandlerC2S.Context
 	{
 		private final ServerPlayNetworkHandler networkHandler;
 		private final MinecraftServer server;

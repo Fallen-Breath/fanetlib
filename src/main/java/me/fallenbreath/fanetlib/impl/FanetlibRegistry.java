@@ -23,8 +23,8 @@ package me.fallenbreath.fanetlib.impl;
 import com.google.common.collect.Maps;
 import io.netty.buffer.Unpooled;
 import me.fallenbreath.fanetlib.api.PacketCodec;
-import me.fallenbreath.fanetlib.api.handler.C2SPacketHandler;
-import me.fallenbreath.fanetlib.api.handler.S2CPacketHandler;
+import me.fallenbreath.fanetlib.api.PacketHandlerC2S;
+import me.fallenbreath.fanetlib.api.PacketHandlerS2C;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.Packet;
@@ -37,8 +37,8 @@ import java.util.Map;
 
 public class FanetlibRegistry<Handler>
 {
-	public static final FanetlibRegistry<C2SPacketHandler<?>> C2S_PLAY = new FanetlibRegistry<>(Direction.C2S);
-	public static final FanetlibRegistry<S2CPacketHandler<?>> S2C_PLAY = new FanetlibRegistry<>(Direction.S2C);
+	public static final FanetlibRegistry<PacketHandlerC2S<?>> C2S_PLAY = new FanetlibRegistry<>(Direction.C2S);
+	public static final FanetlibRegistry<PacketHandlerS2C<?>> S2C_PLAY = new FanetlibRegistry<>(Direction.S2C);
 
 	private final Direction direction;
 	private final Map<Identifier, RegistryEntry<?, Handler>> registry = Maps.newHashMap();
