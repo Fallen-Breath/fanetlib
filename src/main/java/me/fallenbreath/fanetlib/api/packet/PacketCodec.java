@@ -18,25 +18,31 @@
  * along with fanetlib.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.fallenbreath.fanetlib.api;
+package me.fallenbreath.fanetlib.api.packet;
 
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
+import me.fallenbreath.fanetlib.impl.packet.PacketCodecImpl;
+import net.minecraft.util.PacketByteBuf;
 
-@FunctionalInterface
-public interface PacketHandlerC2S<P>
+public interface PacketCodec<P>
 {
-	void handle(P packet, Context context);
-
-	interface Context
+	static <P> PacketCodec<P> of(Encoder<P> encoder, Decoder<P> decoder)
 	{
-		MinecraftServer getServer();
+		return new PacketCodecImpl<>(encoder, decoder);
+	}
 
-		ServerPlayNetworkHandler getNetworkHandler();
+	void encode(P packet, PacketByteBuf buf);
 
-		ServerPlayerEntity getPlayer();
+	P decode(PacketByteBuf buf);
 
-		void runSynced(Runnable runnable);
+	@FunctionalInterface
+	interface Encoder<P>
+	{
+		void encode(P packet, PacketByteBuf buf);
+	}
+
+	@FunctionalInterface
+	interface Decoder<P>
+	{
+		P decode(PacketByteBuf buf);
 	}
 }

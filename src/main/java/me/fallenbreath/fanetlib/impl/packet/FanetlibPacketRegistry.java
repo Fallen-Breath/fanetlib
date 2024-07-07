@@ -18,13 +18,13 @@
  * along with fanetlib.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.fallenbreath.fanetlib.impl;
+package me.fallenbreath.fanetlib.impl.packet;
 
 import com.google.common.collect.Maps;
 import io.netty.buffer.Unpooled;
-import me.fallenbreath.fanetlib.api.PacketCodec;
-import me.fallenbreath.fanetlib.api.PacketHandlerC2S;
-import me.fallenbreath.fanetlib.api.PacketHandlerS2C;
+import me.fallenbreath.fanetlib.api.packet.PacketCodec;
+import me.fallenbreath.fanetlib.api.packet.PacketHandlerC2S;
+import me.fallenbreath.fanetlib.api.packet.PacketHandlerS2C;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
@@ -34,15 +34,15 @@ import net.minecraft.util.PacketByteBuf;
 
 import java.util.Map;
 
-public class FanetlibRegistry<Handler, McPacket>
+public class FanetlibPacketRegistry<Handler, McPacket>
 {
-	public static final FanetlibRegistry<PacketHandlerC2S<?>, CustomPayloadC2SPacket> C2S_PLAY = new FanetlibRegistry<>(Direction.C2S);
-	public static final FanetlibRegistry<PacketHandlerS2C<?>, CustomPayloadS2CPacket> S2C_PLAY = new FanetlibRegistry<>(Direction.S2C);
+	public static final FanetlibPacketRegistry<PacketHandlerC2S<?>, CustomPayloadC2SPacket> C2S_PLAY = new FanetlibPacketRegistry<>(Direction.C2S);
+	public static final FanetlibPacketRegistry<PacketHandlerS2C<?>, CustomPayloadS2CPacket> S2C_PLAY = new FanetlibPacketRegistry<>(Direction.S2C);
 
 	private final Direction direction;
 	private final Map<Identifier, RegistryEntry<?, Handler>> registry = Maps.newHashMap();
 
-	private FanetlibRegistry(Direction direction)
+	private FanetlibPacketRegistry(Direction direction)
 	{
 		this.direction = direction;
 	}

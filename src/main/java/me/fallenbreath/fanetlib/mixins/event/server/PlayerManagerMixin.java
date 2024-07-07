@@ -18,17 +18,22 @@
  * along with fanetlib.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.fallenbreath.fanetlib.impl;
+package me.fallenbreath.fanetlib.mixins.event.server;
 
-import net.minecraft.util.Identifier;
-import net.minecraft.util.PacketByteBuf;
+import me.fallenbreath.fanetlib.impl.event.FanetlibServerEventsRegistry;
+import net.minecraft.server.PlayerManager;
+import net.minecraft.server.network.ServerPlayerEntity;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-/**
- * Backported from mc1.20.2, for easier networking coding
- */
-public interface FakeMcCustomPayload
+@Mixin(PlayerManager.class)
+public abstract class PlayerManagerMixin
 {
-	void write(PacketByteBuf buf);
-
-	Identifier id();
+	@ModifyVariable(method = "onPlayerConnect", at = @At("RETURN"), argsOnly = true)
+	private ServerPlayerEntity onPlayerJoinHook(ServerPlayerEntity player)
+	{
+		FanetlibServerEventsRegistry.getInstance().dispatchPlayerJoinEvent(player.networkHandler);
+		return player;
+	}
 }

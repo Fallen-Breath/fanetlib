@@ -18,31 +18,17 @@
  * along with fanetlib.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.fallenbreath.fanetlib.api;
+package me.fallenbreath.fanetlib.impl.packet;
 
-import me.fallenbreath.fanetlib.impl.FanetlibPacketCodecImpl;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.PacketByteBuf;
 
-public interface PacketCodec<P>
+/**
+ * Backported from mc1.20.2, for easier networking coding
+ */
+public interface FakeMcCustomPayload
 {
-	static <P> PacketCodec<P> of(Encoder<P> encoder, Decoder<P> decoder)
-	{
-		return new FanetlibPacketCodecImpl<>(encoder, decoder);
-	}
+	void write(PacketByteBuf buf);
 
-	void encode(P packet, PacketByteBuf buf);
-
-	P decode(PacketByteBuf buf);
-
-	@FunctionalInterface
-	interface Encoder<P>
-	{
-		void encode(P packet, PacketByteBuf buf);
-	}
-
-	@FunctionalInterface
-	interface Decoder<P>
-	{
-		P decode(PacketByteBuf buf);
-	}
+	Identifier id();
 }

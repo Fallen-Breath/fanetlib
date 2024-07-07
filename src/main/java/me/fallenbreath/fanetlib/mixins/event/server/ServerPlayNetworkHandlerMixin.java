@@ -18,31 +18,21 @@
  * along with fanetlib.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.fallenbreath.fanetlib.impl;
+package me.fallenbreath.fanetlib.mixins.event.server;
 
-import me.fallenbreath.fanetlib.api.PacketCodec;
-import net.minecraft.util.PacketByteBuf;
+import me.fallenbreath.fanetlib.impl.event.FanetlibServerEventsRegistry;
+import net.minecraft.server.network.ServerPlayNetworkHandler;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-public class FanetlibPacketCodecImpl<P> implements PacketCodec<P>
+@Mixin(ServerPlayNetworkHandler.class)
+public abstract class ServerPlayNetworkHandlerMixin
 {
-	private final Encoder<P> encoder;
-	private final Decoder<P> decoder;
-
-	public FanetlibPacketCodecImpl(Encoder<P> encoder, Decoder<P> decoder)
+	@Inject(method = "onDisconnected", at = @At("RETURN"))
+	private void onDisconnectedHook(CallbackInfo ci)
 	{
-		this.encoder = encoder;
-		this.decoder = decoder;
-	}
-
-	@Override
-	public void encode(P packet, PacketByteBuf buf)
-	{
-		this.encoder.encode(packet, buf);
-	}
-
-	@Override
-	public P decode(PacketByteBuf buf)
-	{
-		return this.decoder.decode(buf);
+		FanetlibServerEventsRegistry.getInstance().dispatchPlayerDisconnectEvent((ServerPlayNetworkHandler)(Object)this);
 	}
 }

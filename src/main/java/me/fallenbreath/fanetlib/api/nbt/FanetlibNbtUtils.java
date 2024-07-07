@@ -20,12 +20,12 @@
 
 package me.fallenbreath.fanetlib.api.nbt;
 
-import me.fallenbreath.fanetlib.impl.NetworkNbtUtilsImpl;
+import me.fallenbreath.fanetlib.impl.nbt.NetworkNbtUtilsImpl;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.PacketByteBuf;
 import org.jetbrains.annotations.NotNull;
 
-public class NetworkNbtUtils
+public class FanetlibNbtUtils
 {
 	/**
 	 * The next element inside the buffer should be a serialized nbt

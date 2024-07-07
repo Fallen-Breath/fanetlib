@@ -18,10 +18,10 @@
  * along with fanetlib.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.fallenbreath.fanetlib.impl;
+package me.fallenbreath.fanetlib.impl.packet;
 
-import me.fallenbreath.fanetlib.api.PacketHandlerC2S;
-import me.fallenbreath.fanetlib.api.PacketHandlerS2C;
+import me.fallenbreath.fanetlib.api.packet.PacketHandlerC2S;
+import me.fallenbreath.fanetlib.api.packet.PacketHandlerS2C;
 import me.fallenbreath.fanetlib.mixins.access.ClientPlayNetworkHandlerAccessor;
 import me.fallenbreath.fanetlib.mixins.access.ServerPlayNetworkHandlerAccessor;
 import net.minecraft.client.MinecraftClient;

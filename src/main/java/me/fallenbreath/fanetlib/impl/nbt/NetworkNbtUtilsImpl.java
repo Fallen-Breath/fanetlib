@@ -18,7 +18,7 @@
  * along with fanetlib.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.fallenbreath.fanetlib.impl;
+package me.fallenbreath.fanetlib.impl.nbt;
 
 import io.netty.buffer.Unpooled;
 import me.fallenbreath.fanetlib.FanetlibMod;

@@ -21,8 +21,8 @@
 package me.fallenbreath.fanetlib.mixins.register;
 
 import com.google.common.collect.ImmutableMap;
-import me.fallenbreath.fanetlib.impl.FanetlibCustomPayload;
-import me.fallenbreath.fanetlib.impl.FanetlibRegistry;
+import me.fallenbreath.fanetlib.impl.packet.FanetlibCustomPayload;
+import me.fallenbreath.fanetlib.impl.packet.FanetlibPacketRegistry;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.network.packet.c2s.common.CustomPayloadC2SPacket;
@@ -46,7 +46,7 @@ public abstract class CustomPayloadC2SPacketMixin
 	static
 	{
 		var builder = ImmutableMap.<Identifier, PacketByteBuf.PacketReader<? extends CustomPayload>>builder().putAll(ID_TO_READER);
-		FanetlibRegistry.C2S_PLAY.getRegistry().forEach((id, entry) -> {
+		FanetlibPacketRegistry.C2S_PLAY.getRegistry().forEach((id, entry) -> {
 			builder.put(id, buf -> new FanetlibCustomPayload<>(id, entry.getCodec(), buf));
 		});
 		ID_TO_READER = builder.build();

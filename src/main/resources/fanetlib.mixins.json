@@ -7,12 +7,15 @@
     "access.CustomPayloadC2SPacketAccessor",
     "access.CustomPayloadS2CPacketAccessor",
     "access.ServerPlayNetworkHandlerAccessor",
+    "event.server.PlayerManagerMixin",
+    "event.server.ServerPlayNetworkHandlerMixin",
     "hook.ServerPlayNetworkHandlerMixin",
     "register.CustomPayloadC2SPacketMixin",
     "register.CustomPayloadS2CPacketMixin"
   ],
   "client": [
     "access.ClientPlayNetworkHandlerAccessor",
+    "event.client.ClientPlayNetworkHandlerMixin",
     "hook.ClientPlayNetworkHandlerMixin"
   ],
   "injectors": {

@@ -20,8 +20,8 @@
 
 package me.fallenbreath.fanetlib.mixins.register;
 
-import me.fallenbreath.fanetlib.impl.FanetlibCustomPayload;
-import me.fallenbreath.fanetlib.impl.FanetlibRegistry;
+import me.fallenbreath.fanetlib.impl.packet.FanetlibCustomPayload;
+import me.fallenbreath.fanetlib.impl.packet.FanetlibPacketRegistry;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.network.packet.c2s.common.CustomPayloadC2SPacket;
 import org.spongepowered.asm.mixin.Mixin;
@@ -46,7 +46,7 @@ public abstract class CustomPayloadC2SPacketMixin
 	private static List<?> registerTISCMPayload_c2s(List<CustomPayload.Type<?, ?>> types)
 	{
 		var newTypes = new ArrayList<>(types);
-		FanetlibRegistry.C2S_PLAY.getRegistry().forEach((id, entry) -> {
+		FanetlibPacketRegistry.C2S_PLAY.getRegistry().forEach((id, entry) -> {
 			newTypes.add(new CustomPayload.Type<>(
 					new CustomPayload.Id<FanetlibCustomPayload<?>>(id),
 					CustomPayload.codecOf(

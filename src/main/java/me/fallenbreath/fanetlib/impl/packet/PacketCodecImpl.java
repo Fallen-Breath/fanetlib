@@ -18,28 +18,31 @@
  * along with fanetlib.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.fallenbreath.fanetlib.impl;
+package me.fallenbreath.fanetlib.impl.packet;
 
-import me.fallenbreath.fanetlib.api.PacketCodec;
+import me.fallenbreath.fanetlib.api.packet.PacketCodec;
+import net.minecraft.util.PacketByteBuf;
 
-public class RegistryEntry<P, H>
+public class PacketCodecImpl<P> implements PacketCodec<P>
 {
-	private final PacketCodec<P> codec;
-	private final H handler;
+	private final Encoder<P> encoder;
+	private final Decoder<P> decoder;
 
-	RegistryEntry(PacketCodec<P> codec, H handler)
+	public PacketCodecImpl(Encoder<P> encoder, Decoder<P> decoder)
 	{
-		this.codec = codec;
-		this.handler = handler;
+		this.encoder = encoder;
+		this.decoder = decoder;
 	}
 
-	public PacketCodec<P> getCodec()
+	@Override
+	public void encode(P packet, PacketByteBuf buf)
 	{
-		return this.codec;
+		this.encoder.encode(packet, buf);
 	}
 
-	public H getHandler()
+	@Override
+	public P decode(PacketByteBuf buf)
 	{
-		return this.handler;
+		return this.decoder.decode(buf);
 	}
 }

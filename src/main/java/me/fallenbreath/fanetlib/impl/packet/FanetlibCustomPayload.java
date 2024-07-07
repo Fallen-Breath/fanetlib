@@ -18,9 +18,9 @@
  * along with fanetlib.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.fallenbreath.fanetlib.impl;
+package me.fallenbreath.fanetlib.impl.packet;
 
-import me.fallenbreath.fanetlib.api.PacketCodec;
+import me.fallenbreath.fanetlib.api.packet.PacketCodec;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.PacketByteBuf;
 

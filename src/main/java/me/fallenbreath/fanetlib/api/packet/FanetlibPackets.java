@@ -18,38 +18,38 @@
  * along with fanetlib.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.fallenbreath.fanetlib.api;
+package me.fallenbreath.fanetlib.api.packet;
 
-import me.fallenbreath.fanetlib.impl.FanetlibRegistry;
+import me.fallenbreath.fanetlib.impl.packet.FanetlibPacketRegistry;
 import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
 import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.util.Identifier;
 
-public abstract class FanetlibApi
+public abstract class FanetlibPackets
 {
-	public static <P> void registerC2SPacket(Identifier id, PacketCodec<P> codec, PacketHandlerC2S<P> handler)
+	public static <P> void registerC2S(Identifier id, PacketCodec<P> codec, PacketHandlerC2S<P> handler)
 	{
-		FanetlibRegistry.C2S_PLAY.register(id, codec, handler);
+		FanetlibPacketRegistry.C2S_PLAY.register(id, codec, handler);
 	}
 
-	public static <P> void registerS2CPacket(Identifier id, PacketCodec<P> codec, PacketHandlerS2C<P> handler)
+	public static <P> void registerS2C(Identifier id, PacketCodec<P> codec, PacketHandlerS2C<P> handler)
 	{
-		FanetlibRegistry.S2C_PLAY.register(id, codec, handler);
+		FanetlibPacketRegistry.S2C_PLAY.register(id, codec, handler);
 	}
 
-	public static <P> void registerCommonPacket(Identifier id, PacketCodec<P> codec, PacketHandlerC2S<P> c2sHandler, PacketHandlerS2C<P> s2cHandler)
+	public static <P> void registerDual(Identifier id, PacketCodec<P> codec, PacketHandlerC2S<P> c2sHandler, PacketHandlerS2C<P> s2cHandler)
 	{
-		registerC2SPacket(id, codec, c2sHandler);
-		registerS2CPacket(id, codec, s2cHandler);
+		registerC2S(id, codec, c2sHandler);
+		registerS2C(id, codec, s2cHandler);
 	}
 
-	public static <P> CustomPayloadS2CPacket createS2CPacket(Identifier id, P packet)
+	public static <P> CustomPayloadS2CPacket createS2C(Identifier id, P packet)
 	{
-		return FanetlibRegistry.S2C_PLAY.createPacket(id, packet);
+		return FanetlibPacketRegistry.S2C_PLAY.createPacket(id, packet);
 	}
 
-	public static <P> CustomPayloadC2SPacket createC2SPacket(Identifier id, P packet)
+	public static <P> CustomPayloadC2SPacket createC2S(Identifier id, P packet)
 	{
-		return FanetlibRegistry.C2S_PLAY.createPacket(id, packet);
+		return FanetlibPacketRegistry.C2S_PLAY.createPacket(id, packet);
 	}
 }

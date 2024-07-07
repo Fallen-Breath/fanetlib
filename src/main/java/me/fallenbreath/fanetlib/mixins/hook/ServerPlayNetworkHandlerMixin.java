@@ -20,11 +20,11 @@
 
 package me.fallenbreath.fanetlib.mixins.hook;
 
-import me.fallenbreath.fanetlib.api.PacketHandlerC2S;
-import me.fallenbreath.fanetlib.impl.FanetlibCustomPayload;
-import me.fallenbreath.fanetlib.impl.FanetlibRegistry;
-import me.fallenbreath.fanetlib.impl.PacketHandlerContextImpl;
-import me.fallenbreath.fanetlib.impl.RegistryEntry;
+import me.fallenbreath.fanetlib.api.packet.PacketHandlerC2S;
+import me.fallenbreath.fanetlib.impl.packet.FanetlibCustomPayload;
+import me.fallenbreath.fanetlib.impl.packet.FanetlibPacketRegistry;
+import me.fallenbreath.fanetlib.impl.packet.PacketHandlerContextImpl;
+import me.fallenbreath.fanetlib.impl.packet.RegistryEntry;
 import me.fallenbreath.fanetlib.mixins.access.CustomPayloadS2CPacketAccessor;
 import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
@@ -61,7 +61,7 @@ public abstract class ServerPlayNetworkHandlerMixin
 		Identifier identifier = ((CustomPayloadS2CPacketAccessor) packet).getChannel();
 		//#endif
 
-		RegistryEntry<?, PacketHandlerC2S<?>> entry = FanetlibRegistry.C2S_PLAY.getEntry(identifier);
+		RegistryEntry<?, PacketHandlerC2S<?>> entry = FanetlibPacketRegistry.C2S_PLAY.getEntry(identifier);
 		if (entry == null)
 		{
 			return;
