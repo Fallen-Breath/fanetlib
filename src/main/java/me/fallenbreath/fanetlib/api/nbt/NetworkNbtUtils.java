@@ -20,19 +20,19 @@
 
 package me.fallenbreath.fanetlib.api.nbt;
 
-import me.fallenbreath.fanetlib.impl.NbtUtilsImpl;
+import me.fallenbreath.fanetlib.impl.NetworkNbtUtilsImpl;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.PacketByteBuf;
 import org.jetbrains.annotations.NotNull;
 
-public class NbtUtils
+public class NetworkNbtUtils
 {
 	/**
 	 * The next element inside the buffer should be a serialized nbt
 	 */
 	public static NbtFormat guessNbtFormat(PacketByteBuf buf)
 	{
-		return NbtUtilsImpl.guessNbtFormat(buf);
+		return NetworkNbtUtilsImpl.guessNbtFormat(buf);
 	}
 
 	/**
@@ -43,7 +43,7 @@ public class NbtUtils
 	@NotNull
 	public static CompoundTag readNbtAuto(PacketByteBuf buf)
 	{
-		return NbtUtilsImpl.readNbtAuto(buf);
+		return NetworkNbtUtilsImpl.readNbtAuto(buf);
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class NbtUtils
 	 */
 	public static void writeNbtWithFormat(PacketByteBuf buf, CompoundTag nbt)
 	{
-		NbtUtilsImpl.writeNbtWithFormat(buf, nbt);
+		NetworkNbtUtilsImpl.writeNbtWithFormat(buf, nbt);
 	}
 
 	/**
@@ -60,6 +60,6 @@ public class NbtUtils
 	@NotNull
 	public static CompoundTag readNbtWithFormat(PacketByteBuf buf)
 	{
-		return NbtUtilsImpl.readNbtWithFormat(buf);
+		return NetworkNbtUtilsImpl.readNbtWithFormat(buf);
 	}
 }

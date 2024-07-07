@@ -21,7 +21,8 @@
 package me.fallenbreath.fanetlib.api;
 
 import me.fallenbreath.fanetlib.impl.FanetlibRegistry;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
+import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.util.Identifier;
 
 public abstract class FanetlibApi
@@ -36,12 +37,18 @@ public abstract class FanetlibApi
 		FanetlibRegistry.S2C_PLAY.register(id, codec, handler);
 	}
 
-	public static <P> Packet<?> createS2CPacket(Identifier id, P packet)
+	public static <P> void registerCommonPacket(Identifier id, PacketCodec<P> codec, PacketHandlerC2S<P> c2sHandler, PacketHandlerS2C<P> s2cHandler)
+	{
+		registerC2SPacket(id, codec, c2sHandler);
+		registerS2CPacket(id, codec, s2cHandler);
+	}
+
+	public static <P> CustomPayloadS2CPacket createS2CPacket(Identifier id, P packet)
 	{
 		return FanetlibRegistry.S2C_PLAY.createPacket(id, packet);
 	}
 
-	public static <P> Packet<?> createC2SPacket(Identifier id, P packet)
+	public static <P> CustomPayloadC2SPacket createC2SPacket(Identifier id, P packet)
 	{
 		return FanetlibRegistry.C2S_PLAY.createPacket(id, packet);
 	}

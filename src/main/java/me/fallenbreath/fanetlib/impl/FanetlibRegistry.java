@@ -27,7 +27,6 @@ import me.fallenbreath.fanetlib.api.PacketHandlerC2S;
 import me.fallenbreath.fanetlib.api.PacketHandlerS2C;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.network.Packet;
 import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
 import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.util.Identifier;
@@ -35,10 +34,10 @@ import net.minecraft.util.PacketByteBuf;
 
 import java.util.Map;
 
-public class FanetlibRegistry<Handler>
+public class FanetlibRegistry<Handler, McPacket>
 {
-	public static final FanetlibRegistry<PacketHandlerC2S<?>> C2S_PLAY = new FanetlibRegistry<>(Direction.C2S);
-	public static final FanetlibRegistry<PacketHandlerS2C<?>> S2C_PLAY = new FanetlibRegistry<>(Direction.S2C);
+	public static final FanetlibRegistry<PacketHandlerC2S<?>, CustomPayloadC2SPacket> C2S_PLAY = new FanetlibRegistry<>(Direction.C2S);
+	public static final FanetlibRegistry<PacketHandlerS2C<?>, CustomPayloadS2CPacket> S2C_PLAY = new FanetlibRegistry<>(Direction.S2C);
 
 	private final Direction direction;
 	private final Map<Identifier, RegistryEntry<?, Handler>> registry = Maps.newHashMap();
@@ -69,7 +68,7 @@ public class FanetlibRegistry<Handler>
 	}
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
-	public <P> Packet<?> createPacket(Identifier id, P packet)
+	public <P> McPacket createPacket(Identifier id, P packet)
 	{
 		RegistryEntry<?, Handler> entry = this.getEntry(id);
 		if (entry == null)
@@ -92,7 +91,7 @@ public class FanetlibRegistry<Handler>
 			{
 				throw new RuntimeException("Cannot send C2S packet in non-client, current env: " + envType);
 			}
-			return new CustomPayloadC2SPacket(
+			return (McPacket)new CustomPayloadC2SPacket(
 					//#if MC >= 12002
 					//$$ fcp
 					//#else
@@ -102,7 +101,7 @@ public class FanetlibRegistry<Handler>
 		}
 		else
 		{
-			return new CustomPayloadS2CPacket(
+			return (McPacket)new CustomPayloadS2CPacket(
 					//#if MC >= 12002
 					//$$ fcp
 					//#else
@@ -114,6 +113,7 @@ public class FanetlibRegistry<Handler>
 
 	private enum Direction
 	{
-		C2S, S2C
+		C2S,
+		S2C
 	}
 }

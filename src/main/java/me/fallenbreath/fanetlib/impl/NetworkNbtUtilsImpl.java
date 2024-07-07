@@ -29,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public class NbtUtilsImpl
+public class NetworkNbtUtilsImpl
 {
 	private static final int TAG_ID_COMPOUND = 0x0A;
 
@@ -114,7 +114,7 @@ public class NbtUtilsImpl
 	{
 		if (bufNbtFormat == NbtFormat.UNKNOWN)
 		{
-			FanetlibMod.LOGGER.debug("NbtUtilsImpl.readNbtImpl() called with unknown NbtFormat");
+			FanetlibMod.LOGGER.debug("NetworkNbtUtilsImpl.readNbtImpl() called with unknown NbtFormat");
 		}
 
 		if (NbtFormat.CURRENT == NbtFormat.OLD && bufNbtFormat == NbtFormat.NEW)
