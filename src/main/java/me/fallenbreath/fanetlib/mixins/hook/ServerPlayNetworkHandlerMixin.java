@@ -25,7 +25,7 @@ import me.fallenbreath.fanetlib.impl.packet.FanetlibCustomPayload;
 import me.fallenbreath.fanetlib.impl.packet.FanetlibPacketRegistry;
 import me.fallenbreath.fanetlib.impl.packet.PacketHandlerContextImpl;
 import me.fallenbreath.fanetlib.impl.packet.RegistryEntry;
-import me.fallenbreath.fanetlib.mixins.access.CustomPayloadS2CPacketAccessor;
+import me.fallenbreath.fanetlib.mixins.access.CustomPayloadC2SPacketAccessor;
 import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.util.Identifier;
@@ -58,7 +58,7 @@ public abstract class ServerPlayNetworkHandlerMixin
 		//#elseif MC >= 12002
 		//$$ Identifier identifier = packet.payload().id();
 		//#else
-		Identifier identifier = ((CustomPayloadS2CPacketAccessor) packet).getChannel();
+		Identifier identifier = ((CustomPayloadC2SPacketAccessor)packet).getChannel();
 		//#endif
 
 		RegistryEntry<?, PacketHandlerC2S<?>> entry = FanetlibPacketRegistry.C2S_PLAY.getEntry(identifier);
@@ -74,7 +74,7 @@ public abstract class ServerPlayNetworkHandlerMixin
 		//$$ 	ci.cancel();
 		//$$ }
 		//#else
-		PacketByteBuf packetByteBuf = ((CustomPayloadS2CPacketAccessor)packet).getData();
+		PacketByteBuf packetByteBuf = ((CustomPayloadC2SPacketAccessor)packet).getData();
 		try
 		{
 			FanetlibCustomPayload<?> payload = new FanetlibCustomPayload<>(identifier, entry.getCodec(), packetByteBuf);
