@@ -1,5 +1,7 @@
 ## fanetlib
 
+[![maven badge](https://maven.fallenbreath.me/api/badge/latest/releases/me/fallenbreath/fanetlib)](https://maven.fallenbreath.me/#/releases/me/fallenbreath/fanetlib)
+
 A tiny Minecraft network library for my fabric mods
 
 | fanetlib | for Minecraft    |
