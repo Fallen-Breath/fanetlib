@@ -74,18 +74,10 @@ public abstract class ServerPlayNetworkHandlerMixin
 		//$$ 	ci.cancel();
 		//$$ }
 		//#else
-		PacketByteBuf packetByteBuf = ((CustomPayloadC2SPacketAccessor)packet).getData();
-		try
-		{
-			FanetlibCustomPayload<?> payload = new FanetlibCustomPayload<>(identifier, entry.getCodec(), packetByteBuf);
-			handleCustomPayload(payload, (PacketHandlerC2S)entry.getHandler(), (ServerPlayNetworkHandler)(Object)this);
-			ci.cancel();
-		}
-		finally
-		{
-			// Fix https://bugs.mojang.com/browse/MC-121884, for XXXX packets
-			packetByteBuf.release();
-		}
+		PacketByteBuf buf = ((CustomPayloadC2SPacketAccessor)packet).getData();
+		FanetlibCustomPayload<?> payload = new FanetlibCustomPayload<>(identifier, entry.getCodec(), buf);
+		handleCustomPayload(payload, (PacketHandlerC2S)entry.getHandler(), (ServerPlayNetworkHandler)(Object)this);
+		ci.cancel();
 		//#endif
 	}
 

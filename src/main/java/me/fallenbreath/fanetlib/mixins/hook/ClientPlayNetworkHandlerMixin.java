@@ -82,17 +82,17 @@ public abstract class ClientPlayNetworkHandlerMixin
 		//$$ 	ci.cancel();
 		//$$ }
 		//#else
-		PacketByteBuf packetByteBuf = ((CustomPayloadS2CPacketAccessor)packet).getData();
+		PacketByteBuf buf = ((CustomPayloadS2CPacketAccessor)packet).getData();
 		try
 		{
-			FanetlibCustomPayload<?> payload = new FanetlibCustomPayload<>(identifier, entry.getCodec(), packetByteBuf);
+			FanetlibCustomPayload<?> payload = new FanetlibCustomPayload<>(identifier, entry.getCodec(), buf);
 			handleCustomPayload((PacketHandlerS2C)entry.getHandler(), payload, (ClientPlayNetworkHandler)(Object)this);
 			ci.cancel();
 		}
 		finally
 		{
 			// Fix https://bugs.mojang.com/browse/MC-121884, for fanetlib packets
-			packetByteBuf.release();
+			buf.release();
 		}
 		//#endif
 	}
