@@ -86,7 +86,7 @@ String fullProjectVersion, fullArtifactVersion
 // Example version values:
 //   project.mod_version   1.0.3                      (the base mod version)
 //   finalModVersion       1.0.3+build.88             (the actual mod version to use in the mod)
-//   fullProjectVersion    v1.0.3-mc1.15.2+build.88   (in build output jar name)
+//   fullProjectVersion    mc1.15.2-v1.0.3+build.88   (in build output jar name)
 //   fullArtifactVersion   1.0.3-mc1.15.2-SNAPSHOT    (maven artifact version)
 
 group = project.maven_group
@@ -97,7 +97,7 @@ if (System.getenv("JITPACK") == "true") {
 	fullArtifactVersion = artifactVersion + artifactVersionSuffix
 } else {
 	base.archivesName = project.archives_base_name
-	fullProjectVersion = 'v' + finalModVersion + '-mc' + project.minecraft_version
+	fullProjectVersion = 'mc' + project.minecraft_version + '-v' + finalModVersion
 	fullArtifactVersion = artifactVersion + '-mc' + project.minecraft_version + artifactVersionSuffix
 }
 version = fullProjectVersion
@@ -200,7 +200,7 @@ publishing {
 		mavenJava(MavenPublication) {
 			artifactId base.archivesName.get()
 			from components.java
-            version = fullArtifactVersion
+			version = fullArtifactVersion
 		}
 	}
 
