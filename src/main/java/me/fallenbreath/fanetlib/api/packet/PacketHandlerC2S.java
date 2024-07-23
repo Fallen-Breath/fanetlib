@@ -29,6 +29,11 @@ public interface PacketHandlerC2S<P>
 {
 	void handle(P packet, Context context);
 
+	static <P> PacketHandlerC2S<P> dummy()
+	{
+		return (packet, context) -> {};
+	}
+
 	interface Context
 	{
 		MinecraftServer getServer();

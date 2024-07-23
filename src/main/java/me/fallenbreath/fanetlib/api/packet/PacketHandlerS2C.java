@@ -30,6 +30,11 @@ public interface PacketHandlerS2C<P>
 {
 	void handle(P packet, Context context);
 
+	static <P> PacketHandlerS2C<P> dummy()
+	{
+		return (packet, context) -> {};
+	}
+
 	interface Context
 	{
 		MinecraftClient getClient();
