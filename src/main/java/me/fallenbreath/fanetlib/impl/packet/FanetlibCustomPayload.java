@@ -21,6 +21,7 @@
 package me.fallenbreath.fanetlib.impl.packet;
 
 import me.fallenbreath.fanetlib.api.packet.PacketCodec;
+import me.fallenbreath.fanetlib.api.packet.PacketId;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.PacketByteBuf;
 
@@ -35,18 +36,18 @@ public class FanetlibCustomPayload<P> implements
 		FakeMcCustomPayload
 		//#endif
 {
-	private final Identifier id;
+	private final PacketId<P> id;
 	private final PacketCodec<P> codec;
 	private final P userPacket;
 
-	public FanetlibCustomPayload(Identifier id, PacketCodec<P> codec, P userPacket)
+	public FanetlibCustomPayload(PacketId<P> id, PacketCodec<P> codec, P userPacket)
 	{
 		this.id = id;
 		this.codec = codec;
 		this.userPacket = userPacket;
 	}
 
-	public FanetlibCustomPayload(Identifier id, PacketCodec<P> codec, PacketByteBuf buf)
+	public FanetlibCustomPayload(PacketId<P> id, PacketCodec<P> codec, PacketByteBuf buf)
 	{
 		this(id, codec, codec.decode(buf));
 	}
@@ -69,14 +70,14 @@ public class FanetlibCustomPayload<P> implements
 	//#endif
 	public Identifier id()
 	{
-		return this.id;
+		return this.id.getIdentifier();
 	}
 
 	//#if MC >= 12005
 	//$$ @Override
 	//$$ public Id<? extends CustomPayload> getId()
 	//$$ {
-	//$$ 	return new CustomPayload.Id<>(this.id);
+	//$$ 	return new CustomPayload.Id<>(this.id.getIdentifier());
 	//$$ }
 	//#endif
 }

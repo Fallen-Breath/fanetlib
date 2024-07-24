@@ -21,6 +21,7 @@
 package me.fallenbreath.fanetlib.mixins.hook;
 
 import me.fallenbreath.fanetlib.api.packet.PacketHandlerC2S;
+import me.fallenbreath.fanetlib.api.packet.PacketId;
 import me.fallenbreath.fanetlib.impl.packet.FanetlibCustomPayload;
 import me.fallenbreath.fanetlib.impl.packet.FanetlibPacketRegistry;
 import me.fallenbreath.fanetlib.impl.packet.PacketHandlerContextImpl;
@@ -61,7 +62,8 @@ public abstract class ServerPlayNetworkHandlerMixin
 		Identifier identifier = ((CustomPayloadC2SPacketAccessor)packet).getChannel();
 		//#endif
 
-		RegistryEntry<?, PacketHandlerC2S<?>> entry = FanetlibPacketRegistry.C2S_PLAY.getEntry(identifier);
+		PacketId packetId = new PacketId(identifier);
+		RegistryEntry<?, PacketHandlerC2S<?>> entry = FanetlibPacketRegistry.C2S_PLAY.getEntry(packetId);
 		if (entry == null)
 		{
 			return;
@@ -75,7 +77,7 @@ public abstract class ServerPlayNetworkHandlerMixin
 		//$$ }
 		//#else
 		PacketByteBuf buf = ((CustomPayloadC2SPacketAccessor)packet).getData();
-		FanetlibCustomPayload<?> payload = new FanetlibCustomPayload<>(identifier, entry.getCodec(), buf);
+		FanetlibCustomPayload<?> payload = new FanetlibCustomPayload<>(packetId, entry.getCodec(), buf);
 		handleCustomPayload(payload, (PacketHandlerC2S)entry.getHandler(), (ServerPlayNetworkHandler)(Object)this);
 		ci.cancel();
 		//#endif

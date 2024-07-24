@@ -25,6 +25,7 @@ import io.netty.buffer.Unpooled;
 import me.fallenbreath.fanetlib.api.packet.PacketCodec;
 import me.fallenbreath.fanetlib.api.packet.PacketHandlerC2S;
 import me.fallenbreath.fanetlib.api.packet.PacketHandlerS2C;
+import me.fallenbreath.fanetlib.api.packet.PacketId;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
@@ -40,14 +41,14 @@ public class FanetlibPacketRegistry<Handler, McPacket>
 	public static final FanetlibPacketRegistry<PacketHandlerS2C<?>, CustomPayloadS2CPacket> S2C_PLAY = new FanetlibPacketRegistry<>(Direction.S2C);
 
 	private final Direction direction;
-	private final Map<Identifier, RegistryEntry<?, Handler>> registry = Maps.newHashMap();
+	private final Map<PacketId<?>, RegistryEntry<?, Handler>> registry = Maps.newHashMap();
 
 	private FanetlibPacketRegistry(Direction direction)
 	{
 		this.direction = direction;
 	}
 
-	public <P> void register(Identifier id, PacketCodec<P> codec, Handler handler)
+	public <P> void register(PacketId<P> id, PacketCodec<P> codec, Handler handler)
 	{
 		if (this.registry.containsKey(id))
 		{
@@ -56,19 +57,20 @@ public class FanetlibPacketRegistry<Handler, McPacket>
 		this.registry.put(id, new RegistryEntry<>(codec, handler));
 	}
 
-	public RegistryEntry<?, Handler> getEntry(Identifier id)
+	@SuppressWarnings("unchecked")
+	public <P> RegistryEntry<P, Handler> getEntry(PacketId<P> id)
 	{
-		return this.registry.get(id);
+		return (RegistryEntry<P, Handler>)this.registry.get(id);
 	}
 
 	@SuppressWarnings("unused")
-	public Map<Identifier, RegistryEntry<?, Handler>> getRegistry()
+	public Map<PacketId<?>, RegistryEntry<?, Handler>> getRegistry()
 	{
 		return this.registry;
 	}
 
 	@SuppressWarnings({"rawtypes", "unchecked"})
-	public <P> McPacket createPacket(Identifier id, P packet)
+	public <P> McPacket createPacket(PacketId<P> id, P packet)
 	{
 		RegistryEntry<?, Handler> entry = this.getEntry(id);
 		if (entry == null)
@@ -95,7 +97,7 @@ public class FanetlibPacketRegistry<Handler, McPacket>
 					//#if MC >= 12002
 					//$$ fcp
 					//#else
-					id, buf
+					id.getIdentifier(), buf
 					//#endif
 			);
 		}
@@ -105,7 +107,7 @@ public class FanetlibPacketRegistry<Handler, McPacket>
 					//#if MC >= 12002
 					//$$ fcp
 					//#else
-					id, buf
+					id.getIdentifier(), buf
 					//#endif
 			);
 		}

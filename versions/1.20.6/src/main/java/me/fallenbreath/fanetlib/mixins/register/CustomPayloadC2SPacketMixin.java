@@ -36,6 +36,7 @@ import java.util.List;
 @Mixin(CustomPayloadC2SPacket.class)
 public abstract class CustomPayloadC2SPacketMixin
 {
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	@ModifyArg(
 			method = "<clinit>",
 			at = @At(
@@ -48,10 +49,10 @@ public abstract class CustomPayloadC2SPacketMixin
 		var newTypes = new ArrayList<>(types);
 		FanetlibPacketRegistry.C2S_PLAY.getRegistry().forEach((id, entry) -> {
 			newTypes.add(new CustomPayload.Type<>(
-					new CustomPayload.Id<FanetlibCustomPayload<?>>(id),
+					new CustomPayload.Id<FanetlibCustomPayload<?>>(id.getIdentifier()),
 					CustomPayload.codecOf(
 							FanetlibCustomPayload::write,
-							buf -> new FanetlibCustomPayload<>(id, entry.getCodec(), buf)
+							buf -> new FanetlibCustomPayload(id, entry.getCodec(), buf)
 					)
 			));
 		});

@@ -35,6 +35,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import java.util.Map;
 
 // used in mc [1.20.2, 1.20.5)
+@SuppressWarnings({"rawtypes", "unchecked"})
 @Mixin(CustomPayloadS2CPacket.class)
 public abstract class CustomPayloadS2CPacketMixin
 {
@@ -47,7 +48,7 @@ public abstract class CustomPayloadS2CPacketMixin
 	{
 		var builder = ImmutableMap.<Identifier, PacketByteBuf.PacketReader<? extends CustomPayload>>builder().putAll(ID_TO_READER);
 		FanetlibPacketRegistry.S2C_PLAY.getRegistry().forEach((id, entry) -> {
-			builder.put(id, buf -> new FanetlibCustomPayload<>(id, entry.getCodec(), buf));
+			builder.put(id.getIdentifier(), buf -> new FanetlibCustomPayload(id, entry.getCodec(), buf));
 		});
 		ID_TO_READER = builder.build();
 	}
