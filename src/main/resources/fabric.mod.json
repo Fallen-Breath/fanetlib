@@ -9,7 +9,7 @@
     "Fallen_Breath"
   ],
   "contact": {
-    "homepage": "https://modrinth.com",
+    "homepage": "https://github.com/Fallen-Breath/fanetlib",
     "sources": "https://github.com/Fallen-Breath/fanetlib"
   },
 
@@ -28,5 +28,14 @@
   "depends": {
     "fabricloader": ">=0.11.4",
     "minecraft": "${minecraft_dependency}"
+  },
+
+  "custom": {
+    "modmenu:api": true,
+    "modmenu": {
+      "badges": [
+        "library"
+      ]
+    }
   }
 }
