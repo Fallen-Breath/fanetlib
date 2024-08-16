@@ -16,6 +16,7 @@
   "client": [
     "access.ClientPlayNetworkHandlerAccessor",
     "event.client.ClientPlayNetworkHandlerMixin",
+    "event.client.MinecraftClientMixin",
     "hook.ClientPlayNetworkHandlerMixin"
   ],
   "injectors": {

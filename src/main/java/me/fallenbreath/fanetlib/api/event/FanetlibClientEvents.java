@@ -42,6 +42,18 @@ public class FanetlibClientEvents
 		FanetlibClientEventsRegistry.getInstance().registerPlayerRespawnListener(callback);
 	}
 
+	/**
+	 * Hook at the end of
+	 * <ul>
+	 *   <li>(mc < 1.20.5) {@link net.minecraft.client.MinecraftClient#disconnect(net.minecraft.client.gui.screen.Screen)}</li>
+	 *   <li>(mc >= 1.20.5) {@link net.minecraft.client.MinecraftClient#disconnect(net.minecraft.client.gui.screen.Screen,boolean)}</li>
+	 * </ul>
+	 */
+	public static void registerDisconnectListener(DisconnectCallback callback)
+	{
+		FanetlibClientEventsRegistry.getInstance().registerDisconnectListener(callback);
+	}
+
 	@FunctionalInterface
 	public interface GameJoinCallback
 	{
@@ -52,5 +64,11 @@ public class FanetlibClientEvents
 	public interface PlayerRespawnCallback
 	{
 		void onPlayerRespawn(MinecraftClient client, ClientPlayNetworkHandler networkHandler);
+	}
+
+	@FunctionalInterface
+	public interface DisconnectCallback
+	{
+		void onDisconnect(MinecraftClient client);
 	}
 }

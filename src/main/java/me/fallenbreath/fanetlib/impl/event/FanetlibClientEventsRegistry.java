@@ -21,9 +21,11 @@
 package me.fallenbreath.fanetlib.impl.event;
 
 import com.google.common.collect.Lists;
+import me.fallenbreath.fanetlib.api.event.FanetlibClientEvents.DisconnectCallback;
 import me.fallenbreath.fanetlib.api.event.FanetlibClientEvents.GameJoinCallback;
 import me.fallenbreath.fanetlib.api.event.FanetlibClientEvents.PlayerRespawnCallback;
 import me.fallenbreath.fanetlib.mixins.access.ClientPlayNetworkHandlerAccessor;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 
 import java.util.List;
@@ -34,6 +36,7 @@ public class FanetlibClientEventsRegistry
 
 	private final List<GameJoinCallback> gameJoinCallbacks = Lists.newArrayList();
 	private final List<PlayerRespawnCallback> playerRespawnCallbacks = Lists.newArrayList();
+	private final List<DisconnectCallback> disconnectCallbacks = Lists.newArrayList();
 
 	public static FanetlibClientEventsRegistry getInstance()
 	{
@@ -63,6 +66,19 @@ public class FanetlibClientEventsRegistry
 		for (PlayerRespawnCallback callback : this.playerRespawnCallbacks)
 		{
 			callback.onPlayerRespawn(((ClientPlayNetworkHandlerAccessor)networkHandler).getClient(), networkHandler);
+		}
+	}
+
+	public void registerDisconnectListener(DisconnectCallback callback)
+	{
+		this.disconnectCallbacks.add(callback);
+	}
+
+	public void dispatchDisconnectEvent(MinecraftClient client)
+	{
+		for (DisconnectCallback callback : this.disconnectCallbacks)
+		{
+			callback.onDisconnect(client);
 		}
 	}
 }
