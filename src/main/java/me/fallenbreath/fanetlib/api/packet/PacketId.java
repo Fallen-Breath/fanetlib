@@ -69,4 +69,10 @@ public class PacketId<P>
 	{
 		return Objects.hashCode(identifier);
 	}
+
+	@Override
+	public String toString()
+	{
+		return this.identifier.toString();
+	}
 }
