@@ -44,7 +44,7 @@ public abstract class CustomPayloadC2SPacketMixin
 					target = "Lnet/minecraft/network/packet/CustomPayload;createCodec(Lnet/minecraft/network/packet/CustomPayload$CodecFactory;Ljava/util/List;)Lnet/minecraft/network/codec/PacketCodec;"
 			)
 	)
-	private static List<?> registerTISCMPayload_c2s(List<CustomPayload.Type<?, ?>> types)
+	private static List<?> registerFanetlibPayload_c2s(List<CustomPayload.Type<?, ?>> types)
 	{
 		var newTypes = new ArrayList<>(types);
 		FanetlibPacketRegistry.C2S_PLAY.getRegistry().forEach((id, entry) -> {

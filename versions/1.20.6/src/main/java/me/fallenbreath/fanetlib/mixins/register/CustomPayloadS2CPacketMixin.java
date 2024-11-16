@@ -44,7 +44,7 @@ public abstract class CustomPayloadS2CPacketMixin
 					target = "Lnet/minecraft/network/packet/CustomPayload;createCodec(Lnet/minecraft/network/packet/CustomPayload$CodecFactory;Ljava/util/List;)Lnet/minecraft/network/codec/PacketCodec;"
 			)
 	)
-	private static List<?> registerTISCMPayload_s2c(List<CustomPayload.Type<?, ?>> types)
+	private static List<?> registerFanetlibPayload_s2c(List<CustomPayload.Type<?, ?>> types)
 	{
 		var newTypes = new ArrayList<>(types);
 		FanetlibPacketRegistry.S2C_PLAY.getRegistry().forEach((id, entry) -> {
