@@ -20,6 +20,8 @@
 
 package me.fallenbreath.fanetlib.api.packet;
 
+import me.fallenbreath.fanetlib.FanetlibMod;
+import me.fallenbreath.fanetlib.impl.packet.FanetlibPacketRegistrationCenterHelper;
 import me.fallenbreath.fanetlib.impl.packet.FanetlibPacketRegistry;
 import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
 import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
@@ -29,6 +31,10 @@ public abstract class FanetlibPackets
 {
 	public static <P> void registerC2S(PacketId<P> id, PacketCodec<P> codec, PacketHandlerC2S<P> handler)
 	{
+		if (FanetlibPacketRegistrationCenterHelper.isTooLateForC2SRegister())
+		{
+			FanetlibMod.LOGGER.warn("Fanetlib receives an C2S packet register request with id {} too late", id);
+		}
 		FanetlibPacketRegistry.C2S_PLAY.register(id, codec, handler);
 	}
 
@@ -40,6 +46,10 @@ public abstract class FanetlibPackets
 
 	public static <P> void registerS2C(PacketId<P> id, PacketCodec<P> codec, PacketHandlerS2C<P> handler)
 	{
+		if (FanetlibPacketRegistrationCenterHelper.isTooLateForS2CRegister())
+		{
+			FanetlibMod.LOGGER.warn("Fanetlib receives an S2C packet register request with id {} too late", id);
+		}
 		FanetlibPacketRegistry.S2C_PLAY.register(id, codec, handler);
 	}
 

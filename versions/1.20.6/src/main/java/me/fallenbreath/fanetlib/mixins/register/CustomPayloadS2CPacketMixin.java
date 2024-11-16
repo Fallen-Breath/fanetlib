@@ -21,6 +21,7 @@
 package me.fallenbreath.fanetlib.mixins.register;
 
 import me.fallenbreath.fanetlib.impl.packet.FanetlibCustomPayload;
+import me.fallenbreath.fanetlib.impl.packet.FanetlibPacketRegistrationCenterHelper;
 import me.fallenbreath.fanetlib.impl.packet.FanetlibPacketRegistry;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket;
@@ -46,6 +47,7 @@ public abstract class CustomPayloadS2CPacketMixin
 	)
 	private static List<?> registerFanetlibPayload_s2c(List<CustomPayload.Type<?, ?>> types)
 	{
+		FanetlibPacketRegistrationCenterHelper.invokeS2C();
 		var newTypes = new ArrayList<>(types);
 		FanetlibPacketRegistry.S2C_PLAY.getRegistry().forEach((id, entry) -> {
 			newTypes.add(new CustomPayload.Type<>(
