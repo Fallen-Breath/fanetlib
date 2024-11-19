@@ -91,6 +91,6 @@ public abstract class FanetlibPackets
 	@Deprecated
 	public static <P> CustomPayloadC2SPacket createC2S(Identifier id, P packet)
 	{
-		return FanetlibPacketRegistry.C2S_PLAY.createPacket(PacketId.of(id), packet);
+		return createC2S(PacketId.of(id), packet);
 	}
 }
