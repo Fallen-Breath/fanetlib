@@ -34,14 +34,20 @@ public class FanetlibPacketRegistrationCenterHelper
 	private static final AtomicBoolean hasInvokedS2C = new AtomicBoolean(false);
 	private static final AtomicBoolean hasInvokedC2S = new AtomicBoolean(false);
 
-	public static void invokeC2S()
+	public static void collectAll()
+	{
+		collectC2S();
+		collectS2C();
+	}
+
+	public static void collectC2S()
 	{
 		commonInvoker.run();
 		c2sInvoker.run();
 		hasInvokedC2S.set(true);
 	}
 
-	public static void invokeS2C()
+	public static void collectS2C()
 	{
 		commonInvoker.run();
 		s2cInvoker.run();

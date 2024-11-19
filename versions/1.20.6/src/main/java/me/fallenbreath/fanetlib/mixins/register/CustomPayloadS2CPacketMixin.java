@@ -47,7 +47,7 @@ public abstract class CustomPayloadS2CPacketMixin
 	)
 	private static List<?> registerFanetlibPayload_s2c(List<CustomPayload.Type<?, ?>> types)
 	{
-		FanetlibPacketRegistrationCenterHelper.invokeS2C();
+		FanetlibPacketRegistrationCenterHelper.collectS2C();
 		var newTypes = new ArrayList<>(types);
 		FanetlibPacketRegistry.S2C_PLAY.getRegistry().forEach((id, entry) -> {
 			newTypes.add(new CustomPayload.Type<>(

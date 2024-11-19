@@ -20,6 +20,7 @@
 
 package me.fallenbreath.fanetlib;
 
+import me.fallenbreath.fanetlib.impl.packet.FanetlibPacketRegistrationCenterHelper;
 import net.fabricmc.api.ModInitializer;
 
 //#if MC >= 11800
@@ -42,5 +43,7 @@ public class FanetlibMod implements ModInitializer
 	@Override
 	public void onInitialize()
 	{
+		// For MC < 1.20.2, or in case of those vanilla custom payload classes are not loaded
+		FanetlibPacketRegistrationCenterHelper.collectAll();
 	}
 }

@@ -47,7 +47,7 @@ public abstract class CustomPayloadS2CPacketMixin
 
 	static
 	{
-		FanetlibPacketRegistrationCenterHelper.invokeS2C();
+		FanetlibPacketRegistrationCenterHelper.collectS2C();
 		var builder = ImmutableMap.<Identifier, PacketByteBuf.PacketReader<? extends CustomPayload>>builder().putAll(ID_TO_READER);
 		FanetlibPacketRegistry.S2C_PLAY.getRegistry().forEach((id, entry) -> {
 			builder.put(id.getIdentifier(), buf -> new FanetlibCustomPayload(id, entry.getCodec(), buf));
