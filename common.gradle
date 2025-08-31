@@ -25,6 +25,11 @@ dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
+
+	// library mods
+	if (mcVersion < 12005) {
+		include("io.github.llamalad7:mixinextras-fabric:${project.mixinextras_version}")
+	}
 }
 
 String MIXIN_CONFIG_PATH = 'fanetlib.mixins.json'

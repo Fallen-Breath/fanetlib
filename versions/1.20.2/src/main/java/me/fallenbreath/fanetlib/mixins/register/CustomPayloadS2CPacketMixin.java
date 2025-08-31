@@ -21,6 +21,7 @@
 package me.fallenbreath.fanetlib.mixins.register;
 
 import com.google.common.collect.ImmutableMap;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import me.fallenbreath.fanetlib.impl.packet.FanetlibCustomPayload;
 import me.fallenbreath.fanetlib.impl.packet.FanetlibPacketRegistrationCenterHelper;
 import me.fallenbreath.fanetlib.impl.packet.FanetlibPacketRegistry;
@@ -28,30 +29,27 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket;
 import net.minecraft.util.Identifier;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
-import org.spongepowered.asm.mixin.Shadow;
-
-import java.util.Map;
+import org.spongepowered.asm.mixin.injection.At;
 
 // used in mc [1.20.2, 1.20.5)
 @SuppressWarnings({"rawtypes", "unchecked"})
 @Mixin(CustomPayloadS2CPacket.class)
 public abstract class CustomPayloadS2CPacketMixin
 {
-	@Mutable
-	@Shadow
-	@Final
-	private static Map<Identifier, PacketByteBuf.PacketReader<? extends CustomPayload>> ID_TO_READER;
-
-	static
+	@ModifyExpressionValue(
+			method = "<clinit>",
+			at = @At(
+					value = "INVOKE",
+					target = "Lcom/google/common/collect/ImmutableMap;builder()Lcom/google/common/collect/ImmutableMap$Builder;"
+			)
+	)
+	private static ImmutableMap.Builder<Identifier, PacketByteBuf.PacketReader<? extends CustomPayload>> registerFanetlibS2CPackets(ImmutableMap.Builder<Identifier, PacketByteBuf.PacketReader<? extends CustomPayload>> builder)
 	{
 		FanetlibPacketRegistrationCenterHelper.collectS2C();
-		var builder = ImmutableMap.<Identifier, PacketByteBuf.PacketReader<? extends CustomPayload>>builder().putAll(ID_TO_READER);
 		FanetlibPacketRegistry.S2C_PLAY.getRegistry().forEach((id, entry) -> {
 			builder.put(id.getIdentifier(), buf -> new FanetlibCustomPayload(id, entry.getCodec(), buf));
 		});
-		ID_TO_READER = builder.build();
+		return builder;
 	}
 }
