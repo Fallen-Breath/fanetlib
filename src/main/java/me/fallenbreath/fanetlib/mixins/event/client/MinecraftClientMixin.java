@@ -21,18 +21,18 @@
 package me.fallenbreath.fanetlib.mixins.event.client;
 
 import me.fallenbreath.fanetlib.impl.event.FanetlibClientEventsRegistry;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(MinecraftClient.class)
+@Mixin(Minecraft.class)
 public abstract class MinecraftClientMixin
 {
 	@Inject(
 			//#if MC >= 12005
-			//$$ method = "disconnect(Lnet/minecraft/client/gui/screen/Screen;Z)V",
+			//$$ method = "disconnect(Lnet/minecraft/client/gui/screens/Screen;Z)V",
 			//#else
 			method = "disconnect(Lnet/minecraft/client/gui/screen/Screen;)V",
 			//#endif
@@ -40,6 +40,6 @@ public abstract class MinecraftClientMixin
 	)
 	private void onClientDisconnectHook(CallbackInfo ci)
 	{
-		FanetlibClientEventsRegistry.getInstance().dispatchDisconnectEvent((MinecraftClient)(Object)this);
+		FanetlibClientEventsRegistry.getInstance().dispatchDisconnectEvent((Minecraft)(Object)this);
 	}
 }

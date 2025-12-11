@@ -22,7 +22,7 @@ package me.fallenbreath.fanetlib.api.nbt;
 
 import me.fallenbreath.fanetlib.impl.nbt.NetworkNbtUtilsImpl;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 import org.jetbrains.annotations.NotNull;
 
 public class FanetlibNbtUtils
@@ -30,18 +30,18 @@ public class FanetlibNbtUtils
 	/**
 	 * The next element inside the buffer should be a serialized nbt
 	 */
-	public static NbtFormat guessNbtFormat(PacketByteBuf buf)
+	public static NbtFormat guessNbtFormat(FriendlyByteBuf buf)
 	{
 		return NetworkNbtUtilsImpl.guessNbtFormat(buf);
 	}
 
 	/**
-	 * Read an NBT from a {@link PacketByteBuf} with best-effort nbt format detection
+	 * Read an NBT from a {@link FriendlyByteBuf} with best-effort nbt format detection
 	 * <p>
 	 * Compatible with both mc >= 1.20.2 and mc < 1.20.2 formats
 	 */
 	@NotNull
-	public static CompoundTag readNbtAuto(PacketByteBuf buf)
+	public static CompoundTag readNbtAuto(FriendlyByteBuf buf)
 	{
 		return NetworkNbtUtilsImpl.readNbtAuto(buf);
 	}
@@ -49,7 +49,7 @@ public class FanetlibNbtUtils
 	/**
 	 * Write nbt with current serialization style appended
 	 */
-	public static void writeNbtWithFormat(PacketByteBuf buf, CompoundTag nbt)
+	public static void writeNbtWithFormat(FriendlyByteBuf buf, CompoundTag nbt)
 	{
 		NetworkNbtUtilsImpl.writeNbtWithFormat(buf, nbt);
 	}
@@ -58,7 +58,7 @@ public class FanetlibNbtUtils
 	 * Read nbt with current serialization style appended
 	 */
 	@NotNull
-	public static CompoundTag readNbtWithFormat(PacketByteBuf buf)
+	public static CompoundTag readNbtWithFormat(FriendlyByteBuf buf)
 	{
 		return NetworkNbtUtilsImpl.readNbtWithFormat(buf);
 	}

@@ -21,13 +21,13 @@
 package me.fallenbreath.fanetlib.api.event;
 
 import me.fallenbreath.fanetlib.impl.event.FanetlibClientEventsRegistry;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 
 public class FanetlibClientEvents
 {
 	/**
-	 * Hook at the end of {@link net.minecraft.client.network.ClientPlayNetworkHandler#onGameJoin}
+	 * Hook at the end of {@link net.minecraft.client.network.ClientPacketListener#onGameJoin}
 	 */
 	public static void registerGameJoinListener(GameJoinCallback callback)
 	{
@@ -35,7 +35,7 @@ public class FanetlibClientEvents
 	}
 
 	/**
-	 * Hook at the end of {@link net.minecraft.client.network.ClientPlayNetworkHandler#onPlayerRespawn}
+	 * Hook at the end of {@link net.minecraft.client.network.ClientPacketListener#onPlayerRespawn}
 	 */
 	public static void registerPlayerRespawnListener(PlayerRespawnCallback callback)
 	{
@@ -45,8 +45,8 @@ public class FanetlibClientEvents
 	/**
 	 * Hook at the end of
 	 * <ul>
-	 *   <li>(mc < 1.20.5) {@link net.minecraft.client.MinecraftClient#disconnect(net.minecraft.client.gui.screen.Screen)}</li>
-	 *   <li>(mc >= 1.20.5) {@link net.minecraft.client.MinecraftClient#disconnect(net.minecraft.client.gui.screen.Screen,boolean)}</li>
+	 *   <li>(mc < 1.20.5) {@link net.minecraft.client.Minecraft#disconnect(net.minecraft.client.gui.screen.Screen)}</li>
+	 *   <li>(mc >= 1.20.5) {@link net.minecraft.client.Minecraft#disconnect(net.minecraft.client.gui.screen.Screen,boolean)}</li>
 	 * </ul>
 	 */
 	public static void registerDisconnectListener(DisconnectCallback callback)
@@ -57,18 +57,18 @@ public class FanetlibClientEvents
 	@FunctionalInterface
 	public interface GameJoinCallback
 	{
-		void onGameJoin(MinecraftClient client, ClientPlayNetworkHandler networkHandler);
+		void onGameJoin(Minecraft client, ClientPacketListener networkHandler);
 	}
 
 	@FunctionalInterface
 	public interface PlayerRespawnCallback
 	{
-		void onPlayerRespawn(MinecraftClient client, ClientPlayNetworkHandler networkHandler);
+		void onPlayerRespawn(Minecraft client, ClientPacketListener networkHandler);
 	}
 
 	@FunctionalInterface
 	public interface DisconnectCallback
 	{
-		void onDisconnect(MinecraftClient client);
+		void onDisconnect(Minecraft client);
 	}
 }

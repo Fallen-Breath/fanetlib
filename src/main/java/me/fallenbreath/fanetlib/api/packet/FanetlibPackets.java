@@ -23,9 +23,9 @@ package me.fallenbreath.fanetlib.api.packet;
 import me.fallenbreath.fanetlib.FanetlibMod;
 import me.fallenbreath.fanetlib.impl.packet.FanetlibPacketRegistrationCenterHelper;
 import me.fallenbreath.fanetlib.impl.packet.FanetlibPacketRegistry;
-import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
-import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.protocol.game.ClientboundCustomPayloadPacket;
+import net.minecraft.network.protocol.game.ServerboundCustomPayloadPacket;
+import net.minecraft.resources.ResourceLocation;
 
 public abstract class FanetlibPackets
 {
@@ -39,7 +39,7 @@ public abstract class FanetlibPackets
 	}
 
 	@Deprecated
-	public static <P> void registerC2S(Identifier id, PacketCodec<P> codec, PacketHandlerC2S<P> handler)
+	public static <P> void registerC2S(ResourceLocation id, PacketCodec<P> codec, PacketHandlerC2S<P> handler)
 	{
 		registerC2S(PacketId.of(id), codec, handler);
 	}
@@ -54,7 +54,7 @@ public abstract class FanetlibPackets
 	}
 
 	@Deprecated
-	public static <P> void registerS2C(Identifier id, PacketCodec<P> codec, PacketHandlerS2C<P> handler)
+	public static <P> void registerS2C(ResourceLocation id, PacketCodec<P> codec, PacketHandlerS2C<P> handler)
 	{
 		registerS2C(PacketId.of(id), codec, handler);
 	}
@@ -66,30 +66,30 @@ public abstract class FanetlibPackets
 	}
 
 	@Deprecated
-	public static <P> void registerDual(Identifier id, PacketCodec<P> codec, PacketHandlerC2S<P> c2sHandler, PacketHandlerS2C<P> s2cHandler)
+	public static <P> void registerDual(ResourceLocation id, PacketCodec<P> codec, PacketHandlerC2S<P> c2sHandler, PacketHandlerS2C<P> s2cHandler)
 	{
 		registerC2S(id, codec, c2sHandler);
 		registerS2C(id, codec, s2cHandler);
 	}
 
-	public static <P> CustomPayloadS2CPacket createS2C(PacketId<P> id, P packet)
+	public static <P> ClientboundCustomPayloadPacket createS2C(PacketId<P> id, P packet)
 	{
 		return FanetlibPacketRegistry.S2C_PLAY.createPacket(id, packet);
 	}
 
 	@Deprecated
-	public static <P> CustomPayloadS2CPacket createS2C(Identifier id, P packet)
+	public static <P> ClientboundCustomPayloadPacket createS2C(ResourceLocation id, P packet)
 	{
 		return createS2C(PacketId.of(id), packet);
 	}
 
-	public static <P> CustomPayloadC2SPacket createC2S(PacketId<P> id, P packet)
+	public static <P> ServerboundCustomPayloadPacket createC2S(PacketId<P> id, P packet)
 	{
 		return FanetlibPacketRegistry.C2S_PLAY.createPacket(id, packet);
 	}
 
 	@Deprecated
-	public static <P> CustomPayloadC2SPacket createC2S(Identifier id, P packet)
+	public static <P> ServerboundCustomPayloadPacket createC2S(ResourceLocation id, P packet)
 	{
 		return createC2S(PacketId.of(id), packet);
 	}

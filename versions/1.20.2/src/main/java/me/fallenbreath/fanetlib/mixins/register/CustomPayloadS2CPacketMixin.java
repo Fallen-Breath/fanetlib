@@ -25,16 +25,16 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import me.fallenbreath.fanetlib.impl.packet.FanetlibCustomPayload;
 import me.fallenbreath.fanetlib.impl.packet.FanetlibPacketRegistrationCenterHelper;
 import me.fallenbreath.fanetlib.impl.packet.FanetlibPacketRegistry;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.CustomPayload;
-import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 // used in mc [1.20.2, 1.20.5)
 @SuppressWarnings({"rawtypes", "unchecked"})
-@Mixin(CustomPayloadS2CPacket.class)
+@Mixin(ClientboundCustomPayloadPacket.class)
 public abstract class CustomPayloadS2CPacketMixin
 {
 	@ModifyExpressionValue(
@@ -47,7 +47,7 @@ public abstract class CustomPayloadS2CPacketMixin
 			),
 			remap = true
 	)
-	private static ImmutableMap.Builder<Identifier, PacketByteBuf.PacketReader<? extends CustomPayload>> registerFanetlibS2CPackets(ImmutableMap.Builder<Identifier, PacketByteBuf.PacketReader<? extends CustomPayload>> builder)
+	private static ImmutableMap.Builder<ResourceLocation, FriendlyByteBuf.Reader<? extends CustomPacketPayload>> registerFanetlibS2CPackets(ImmutableMap.Builder<ResourceLocation, FriendlyByteBuf.Reader<? extends CustomPacketPayload>> builder)
 	{
 		FanetlibPacketRegistrationCenterHelper.collectS2C();
 		FanetlibPacketRegistry.S2C_PLAY.getRegistry().forEach((id, entry) -> {

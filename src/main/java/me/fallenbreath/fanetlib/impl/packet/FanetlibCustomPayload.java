@@ -22,16 +22,16 @@ package me.fallenbreath.fanetlib.impl.packet;
 
 import me.fallenbreath.fanetlib.api.packet.PacketCodec;
 import me.fallenbreath.fanetlib.api.packet.PacketId;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 
 //#if MC >= 12002
-//$$ import net.minecraft.network.packet.CustomPayload;
+//$$ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 //#endif
 
 public class FanetlibCustomPayload<P> implements
 		//#if MC >= 12002
-		//$$ CustomPayload
+		//$$ CustomPacketPayload
 		//#else
 		FakeMcCustomPayload
 		//#endif
@@ -47,7 +47,7 @@ public class FanetlibCustomPayload<P> implements
 		this.userPacket = userPacket;
 	}
 
-	public FanetlibCustomPayload(PacketId<P> id, PacketCodec<P> codec, PacketByteBuf buf)
+	public FanetlibCustomPayload(PacketId<P> id, PacketCodec<P> codec, FriendlyByteBuf buf)
 	{
 		this(id, codec, codec.decode(buf));
 	}
@@ -60,7 +60,7 @@ public class FanetlibCustomPayload<P> implements
 	//#if MC < 12005
 	@Override
 	//#endif
-	public void write(PacketByteBuf buf)
+	public void write(FriendlyByteBuf buf)
 	{
 		this.codec.encode(this.userPacket, buf);
 	}
@@ -68,16 +68,16 @@ public class FanetlibCustomPayload<P> implements
 	//#if MC < 12005
 	@Override
 	//#endif
-	public Identifier id()
+	public ResourceLocation id()
 	{
 		return this.id.getIdentifier();
 	}
 
 	//#if MC >= 12005
 	//$$ @Override
-	//$$ public Id<? extends CustomPayload> getId()
+	//$$ public Type<? extends CustomPacketPayload> type()
 	//$$ {
-	//$$ 	return new CustomPayload.Id<>(this.id.getIdentifier());
+	//$$ 	return new CustomPacketPayload.Type<>(this.id.getIdentifier());
 	//$$ }
 	//#endif
 }

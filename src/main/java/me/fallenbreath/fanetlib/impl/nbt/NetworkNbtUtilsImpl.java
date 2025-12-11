@@ -24,7 +24,7 @@ import io.netty.buffer.Unpooled;
 import me.fallenbreath.fanetlib.FanetlibMod;
 import me.fallenbreath.fanetlib.api.nbt.NbtFormat;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -34,7 +34,7 @@ public class NetworkNbtUtilsImpl
 	private static final int TAG_ID_COMPOUND = 0x0A;
 
 	// Notes: reader index untouched
-	public static NbtFormat guessNbtFormat(PacketByteBuf buf)
+	public static NbtFormat guessNbtFormat(FriendlyByteBuf buf)
 	{
 		int n = buf.readableBytes();
 
@@ -86,23 +86,19 @@ public class NetworkNbtUtilsImpl
 		return NbtFormat.UNKNOWN;
 	}
 
-	public static CompoundTag readNbtAuto(PacketByteBuf buf)
+	public static CompoundTag readNbtAuto(FriendlyByteBuf buf)
 	{
 		NbtFormat nbtFormat = guessNbtFormat(buf);
 		return Objects.requireNonNull(readNbtImpl(nbtFormat, buf));
 	}
 
-	public static void writeNbtWithFormat(PacketByteBuf buf, CompoundTag nbt)
+	public static void writeNbtWithFormat(FriendlyByteBuf buf, CompoundTag nbt)
 	{
 		buf.writeVarInt(NbtFormat.CURRENT.ordinal());
-		//#if MC >= 12002
-		//$$ buf.writeNbt(nbt);
-		//#else
-		buf.writeCompoundTag(nbt);
-		//#endif
+		buf.writeNbt(nbt);
 	}
 
-	public static CompoundTag readNbtWithFormat(PacketByteBuf buf)
+	public static CompoundTag readNbtWithFormat(FriendlyByteBuf buf)
 	{
 		int styleId = buf.readVarInt();
 		NbtFormat nbtFormat = NbtFormat.values()[styleId];
@@ -110,7 +106,7 @@ public class NetworkNbtUtilsImpl
 	}
 
 	@Nullable
-	private static CompoundTag readNbtImpl(NbtFormat bufNbtFormat, PacketByteBuf buf)
+	private static CompoundTag readNbtImpl(NbtFormat bufNbtFormat, FriendlyByteBuf buf)
 	{
 		if (bufNbtFormat == NbtFormat.UNKNOWN)
 		{
@@ -123,13 +119,13 @@ public class NetworkNbtUtilsImpl
 
 			//#if MC < 12002
 			int prevReaderIndex = buf.readerIndex();
-			PacketByteBuf tweakedBuf = new PacketByteBuf(Unpooled.buffer());
+			FriendlyByteBuf tweakedBuf = new FriendlyByteBuf(Unpooled.buffer());
 			tweakedBuf.writeByte(buf.readByte());  // 0x0A, tag type
 			tweakedBuf.writeByte(0).writeByte(0);  // 2* 0x00
 			tweakedBuf.writeBytes(buf);
 			buf.readerIndex(prevReaderIndex);
 
-			CompoundTag nbt = tweakedBuf.readCompoundTag();
+			CompoundTag nbt = tweakedBuf.readNbt();
 
 			int n = tweakedBuf.readerIndex();
 			buf.readBytes(Math.max(0, n - 2));
@@ -142,13 +138,13 @@ public class NetworkNbtUtilsImpl
 			// I'm >= mc1.20.2 (NEW), trying to read a nbt in OLD style
 
 			int prevReaderIndex = buf.readerIndex();
-			PacketByteBuf tweakedBuf = new PacketByteBuf(Unpooled.buffer());
+			FriendlyByteBuf tweakedBuf = new FriendlyByteBuf(Unpooled.buffer());
 			tweakedBuf.writeByte(buf.readByte());  // 0x0A, tag type
 			buf.readBytes(2);  // consume the 2* 0x00
 			tweakedBuf.writeBytes(buf);
 			buf.readerIndex(prevReaderIndex);
 
-			CompoundTag nbt = tweakedBuf.readCompoundTag();
+			CompoundTag nbt = tweakedBuf.readNbt();
 
 			int n = tweakedBuf.readerIndex();
 			buf.readBytes(Math.max(0, n > 1 ? n + 2 : n));
@@ -156,6 +152,6 @@ public class NetworkNbtUtilsImpl
 		}
 
 		// direct read
-		return buf.readCompoundTag();
+		return buf.readNbt();
 	}
 }

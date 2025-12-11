@@ -21,8 +21,8 @@
 package me.fallenbreath.fanetlib.api.packet;
 
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 
 @FunctionalInterface
 public interface PacketHandlerC2S<P>
@@ -38,9 +38,9 @@ public interface PacketHandlerC2S<P>
 	{
 		MinecraftServer getServer();
 
-		ServerPlayNetworkHandler getNetworkHandler();
+		ServerGamePacketListenerImpl getNetworkHandler();
 
-		ServerPlayerEntity getPlayer();
+		ServerPlayer getPlayer();
 
 		void runSynced(Runnable runnable);
 	}

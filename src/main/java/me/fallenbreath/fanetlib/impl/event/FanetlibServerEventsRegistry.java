@@ -24,7 +24,7 @@ import com.google.common.collect.Lists;
 import me.fallenbreath.fanetlib.api.event.FanetlibServerEvents.PlayerDisconnectCallback;
 import me.fallenbreath.fanetlib.api.event.FanetlibServerEvents.PlayerJoinCallback;
 import me.fallenbreath.fanetlib.mixins.access.ServerPlayNetworkHandlerAccessor;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class FanetlibServerEventsRegistry
 		this.playerJoinCallbacks.add(callback);
 	}
 
-	public void dispatchPlayerJoinEvent(ServerPlayNetworkHandler networkHandler)
+	public void dispatchPlayerJoinEvent(ServerGamePacketListenerImpl networkHandler)
 	{
 		for (PlayerJoinCallback callback : this.playerJoinCallbacks)
 		{
@@ -58,7 +58,7 @@ public class FanetlibServerEventsRegistry
 		this.playerDisconnectCallbacks.add(callback);
 	}
 
-	public void dispatchPlayerDisconnectEvent(ServerPlayNetworkHandler networkHandler)
+	public void dispatchPlayerDisconnectEvent(ServerGamePacketListenerImpl networkHandler)
 	{
 		for (PlayerDisconnectCallback callback : this.playerDisconnectCallbacks)
 		{

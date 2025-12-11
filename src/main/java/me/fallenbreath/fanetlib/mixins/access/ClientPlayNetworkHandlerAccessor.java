@@ -20,24 +20,24 @@
 
 package me.fallenbreath.fanetlib.mixins.access;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 //#if MC >= 12002
-//$$ import net.minecraft.client.network.ClientCommonNetworkHandler;
+//$$ import net.minecraft.client.multiplayer.ClientCommonPacketListenerImpl;
 //#endif
 
 @Mixin(
 		//#if MC >= 12002
-		//$$ ClientCommonNetworkHandler.class
+		//$$ ClientCommonPacketListenerImpl.class
 		//#else
-		ClientPlayNetworkHandler.class
+		ClientPacketListener.class
 		//#endif
 )
 public interface ClientPlayNetworkHandlerAccessor
 {
 	@Accessor
-	MinecraftClient getClient();
+	Minecraft getClient();
 }

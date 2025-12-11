@@ -22,8 +22,8 @@ package me.fallenbreath.fanetlib.api.event;
 
 import me.fallenbreath.fanetlib.impl.event.FanetlibServerEventsRegistry;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 
 public class FanetlibServerEvents
 {
@@ -36,7 +36,7 @@ public class FanetlibServerEvents
 	}
 
 	/**
-	 * Hook at the end of {@link net.minecraft.server.network.ServerPlayNetworkHandler#onDisconnected}
+	 * Hook at the end of {@link net.minecraft.server.network.ServerGamePacketListenerImpl#onDisconnected}
 	 */
 	public static void registerPlayerDisconnectListener(PlayerDisconnectCallback callback)
 	{
@@ -46,12 +46,12 @@ public class FanetlibServerEvents
 	@FunctionalInterface
 	public interface PlayerJoinCallback
 	{
-		void onPlayerJoin(MinecraftServer server, ServerPlayNetworkHandler networkHandler, ServerPlayerEntity player);
+		void onPlayerJoin(MinecraftServer server, ServerGamePacketListenerImpl networkHandler, ServerPlayer player);
 	}
 
 	@FunctionalInterface
 	public interface PlayerDisconnectCallback
 	{
-		void onPlayerDisconnect(MinecraftServer server, ServerPlayNetworkHandler networkHandler, ServerPlayerEntity player);
+		void onPlayerDisconnect(MinecraftServer server, ServerGamePacketListenerImpl networkHandler, ServerPlayer player);
 	}
 }

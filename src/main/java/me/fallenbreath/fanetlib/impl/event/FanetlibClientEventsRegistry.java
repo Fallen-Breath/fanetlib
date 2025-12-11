@@ -25,8 +25,8 @@ import me.fallenbreath.fanetlib.api.event.FanetlibClientEvents.DisconnectCallbac
 import me.fallenbreath.fanetlib.api.event.FanetlibClientEvents.GameJoinCallback;
 import me.fallenbreath.fanetlib.api.event.FanetlibClientEvents.PlayerRespawnCallback;
 import me.fallenbreath.fanetlib.mixins.access.ClientPlayNetworkHandlerAccessor;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class FanetlibClientEventsRegistry
 		this.gameJoinCallbacks.add(callback);
 	}
 
-	public void dispatchGameJoinEvent(ClientPlayNetworkHandler networkHandler)
+	public void dispatchGameJoinEvent(ClientPacketListener networkHandler)
 	{
 		for (GameJoinCallback callback : this.gameJoinCallbacks)
 		{
@@ -61,7 +61,7 @@ public class FanetlibClientEventsRegistry
 		this.playerRespawnCallbacks.add(callback);
 	}
 
-	public void dispatchPlayerRespawnEvent(ClientPlayNetworkHandler networkHandler)
+	public void dispatchPlayerRespawnEvent(ClientPacketListener networkHandler)
 	{
 		for (PlayerRespawnCallback callback : this.playerRespawnCallbacks)
 		{
@@ -74,7 +74,7 @@ public class FanetlibClientEventsRegistry
 		this.disconnectCallbacks.add(callback);
 	}
 
-	public void dispatchDisconnectEvent(MinecraftClient client)
+	public void dispatchDisconnectEvent(Minecraft client)
 	{
 		for (DisconnectCallback callback : this.disconnectCallbacks)
 		{

@@ -21,7 +21,7 @@
 package me.fallenbreath.fanetlib.api.packet;
 
 import me.fallenbreath.fanetlib.impl.packet.PacketCodecImpl;
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 
 public interface PacketCodec<P>
 {
@@ -30,19 +30,19 @@ public interface PacketCodec<P>
 		return new PacketCodecImpl<>(encoder, decoder);
 	}
 
-	void encode(P packet, PacketByteBuf buf);
+	void encode(P packet, FriendlyByteBuf buf);
 
-	P decode(PacketByteBuf buf);
+	P decode(FriendlyByteBuf buf);
 
 	@FunctionalInterface
 	interface Encoder<P>
 	{
-		void encode(P packet, PacketByteBuf buf);
+		void encode(P packet, FriendlyByteBuf buf);
 	}
 
 	@FunctionalInterface
 	interface Decoder<P>
 	{
-		P decode(PacketByteBuf buf);
+		P decode(FriendlyByteBuf buf);
 	}
 }

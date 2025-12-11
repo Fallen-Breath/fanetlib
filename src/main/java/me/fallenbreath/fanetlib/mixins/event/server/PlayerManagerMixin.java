@@ -21,19 +21,19 @@
 package me.fallenbreath.fanetlib.mixins.event.server;
 
 import me.fallenbreath.fanetlib.impl.event.FanetlibServerEventsRegistry;
-import net.minecraft.server.PlayerManager;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.players.PlayerList;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-@Mixin(PlayerManager.class)
+@Mixin(PlayerList.class)
 public abstract class PlayerManagerMixin
 {
-	@ModifyVariable(method = "onPlayerConnect", at = @At("RETURN"), argsOnly = true)
-	private ServerPlayerEntity onPlayerJoinHook(ServerPlayerEntity player)
+	@ModifyVariable(method = "placeNewPlayer", at = @At("RETURN"), argsOnly = true)
+	private ServerPlayer onPlayerJoinHook(ServerPlayer player)
 	{
-		FanetlibServerEventsRegistry.getInstance().dispatchPlayerJoinEvent(player.networkHandler);
+		FanetlibServerEventsRegistry.getInstance().dispatchPlayerJoinEvent(player.connection);
 		return player;
 	}
 }

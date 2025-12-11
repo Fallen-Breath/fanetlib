@@ -21,7 +21,7 @@
 package me.fallenbreath.fanetlib.impl.packet;
 
 import me.fallenbreath.fanetlib.api.packet.PacketCodec;
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 
 public class PacketCodecImpl<P> implements PacketCodec<P>
 {
@@ -35,13 +35,13 @@ public class PacketCodecImpl<P> implements PacketCodec<P>
 	}
 
 	@Override
-	public void encode(P packet, PacketByteBuf buf)
+	public void encode(P packet, FriendlyByteBuf buf)
 	{
 		this.encoder.encode(packet, buf);
 	}
 
 	@Override
-	public P decode(PacketByteBuf buf)
+	public P decode(FriendlyByteBuf buf)
 	{
 		return this.decoder.decode(buf);
 	}

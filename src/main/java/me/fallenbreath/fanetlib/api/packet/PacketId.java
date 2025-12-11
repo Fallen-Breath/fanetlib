@@ -20,20 +20,20 @@
 
 package me.fallenbreath.fanetlib.api.packet;
 
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.Objects;
 
 public class PacketId<P>
 {
-	private final Identifier identifier;
+	private final ResourceLocation identifier;
 
-	public PacketId(Identifier identifier)
+	public PacketId(ResourceLocation identifier)
 	{
 		this.identifier = identifier;
 	}
 
-	public static <P> PacketId<P> of(Identifier identifier)
+	public static <P> PacketId<P> of(ResourceLocation identifier)
 	{
 		return new PacketId<>(identifier);
 	}
@@ -42,15 +42,15 @@ public class PacketId<P>
 	{
 		return of(
 				//#if MC >= 12100
-				//$$ Identifier.of
+				//$$ ResourceLocation.fromNamespaceAndPath
 				//#else
-				new Identifier
+				new ResourceLocation
 				//#endif
 						(namespace, path)
 		);
 	}
 
-	public Identifier getIdentifier()
+	public ResourceLocation getIdentifier()
 	{
 		return this.identifier;
 	}

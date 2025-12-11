@@ -23,8 +23,8 @@ package me.fallenbreath.fanetlib.mixins.register;
 import me.fallenbreath.fanetlib.impl.packet.FanetlibCustomPayload;
 import me.fallenbreath.fanetlib.impl.packet.FanetlibPacketRegistrationCenterHelper;
 import me.fallenbreath.fanetlib.impl.packet.FanetlibPacketRegistry;
-import net.minecraft.network.packet.CustomPayload;
-import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket;
+import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -34,7 +34,7 @@ import java.util.Collections;
 import java.util.List;
 
 // used in mc >= 1.20.5
-@Mixin(CustomPayloadS2CPacket.class)
+@Mixin(ClientboundCustomPayloadPacket.class)
 public abstract class CustomPayloadS2CPacketMixin
 {
 	@SuppressWarnings({"rawtypes", "unchecked"})
@@ -42,17 +42,17 @@ public abstract class CustomPayloadS2CPacketMixin
 			method = "<clinit>",
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/network/packet/CustomPayload;createCodec(Lnet/minecraft/network/packet/CustomPayload$CodecFactory;Ljava/util/List;)Lnet/minecraft/network/codec/PacketCodec;"
+					target = "Lnet/minecraft/network/protocol/common/custom/CustomPacketPayload;codec(Lnet/minecraft/network/protocol/common/custom/CustomPacketPayload$FallbackProvider;Ljava/util/List;)Lnet/minecraft/network/codec/StreamCodec;"
 			)
 	)
-	private static List<?> registerFanetlibPayload_s2c(List<CustomPayload.Type<?, ?>> types)
+	private static List<?> registerFanetlibPayload_s2c(List<CustomPacketPayload.TypeAndCodec<?, ?>> types)
 	{
 		FanetlibPacketRegistrationCenterHelper.collectS2C();
 		var newTypes = new ArrayList<>(types);
 		FanetlibPacketRegistry.S2C_PLAY.getRegistry().forEach((id, entry) -> {
-			newTypes.add(new CustomPayload.Type<>(
-					new CustomPayload.Id<FanetlibCustomPayload<?>>(id.getIdentifier()),
-					CustomPayload.codecOf(
+			newTypes.add(new CustomPacketPayload.TypeAndCodec<>(
+					new CustomPacketPayload.Type<FanetlibCustomPayload<?>>(id.getIdentifier()),
+					CustomPacketPayload.codec(
 							FanetlibCustomPayload::write,
 							buf -> new FanetlibCustomPayload(id, entry.getCodec(), buf)
 					)

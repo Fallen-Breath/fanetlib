@@ -27,10 +27,10 @@ import me.fallenbreath.fanetlib.impl.packet.FanetlibPacketRegistry;
 import me.fallenbreath.fanetlib.impl.packet.PacketHandlerContextImpl;
 import me.fallenbreath.fanetlib.impl.packet.RegistryEntry;
 import me.fallenbreath.fanetlib.mixins.access.CustomPayloadC2SPacketAccessor;
-import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.game.ServerboundCustomPayloadPacket;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -38,28 +38,28 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 //#if 12002 <= MC && MC < 12005
-//$$ import net.minecraft.server.network.ServerCommonNetworkHandler;
+//$$ import net.minecraft.server.network.ServerCommonPacketListenerImpl;
 //#endif
 
 @Mixin(
 		//#if 12002 <= MC && MC < 12005
-		//$$ ServerCommonNetworkHandler.class
+		//$$ ServerCommonPacketListenerImpl.class
 		//#else
-		ServerPlayNetworkHandler.class
+		ServerGamePacketListenerImpl.class
 		//#endif
 )
 public abstract class ServerPlayNetworkHandlerMixin
 {
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Inject(method = "onCustomPayload", at = @At("HEAD"), cancellable = true)
-	private void handleCustomPayloadC2SPacket(CustomPayloadC2SPacket packet, CallbackInfo ci)
+	private void handleCustomPayloadC2SPacket(ServerboundCustomPayloadPacket packet, CallbackInfo ci)
 	{
 		//#if MC >= 12005
-		//$$ Identifier identifier = packet.payload().getId().id();
+		//$$ ResourceLocation identifier = packet.payload().type().id();
 		//#elseif MC >= 12002
-		//$$ Identifier identifier = packet.payload().id();
+		//$$ ResourceLocation identifier = packet.payload().id();
 		//#else
-		Identifier identifier = ((CustomPayloadC2SPacketAccessor)packet).getChannel();
+		ResourceLocation identifier = ((CustomPayloadC2SPacketAccessor)packet).getChannel();
 		//#endif
 
 		PacketId packetId = new PacketId(identifier);
@@ -70,21 +70,21 @@ public abstract class ServerPlayNetworkHandlerMixin
 		}
 
 		//#if MC >= 12002
-		//$$ if (packet.payload() instanceof FanetlibCustomPayload fcp && (Object)this instanceof ServerPlayNetworkHandler self)
+		//$$ if (packet.payload() instanceof FanetlibCustomPayload fcp && (Object)this instanceof ServerGamePacketListenerImpl self)
 		//$$ {
 		//$$ 	handleCustomPayload(fcp, (PacketHandlerC2S)entry.getHandler(), self);
 		//$$ 	ci.cancel();
 		//$$ }
 		//#else
-		PacketByteBuf buf = ((CustomPayloadC2SPacketAccessor)packet).getData();
+		FriendlyByteBuf buf = ((CustomPayloadC2SPacketAccessor)packet).getData();
 		FanetlibCustomPayload<?> payload = new FanetlibCustomPayload<>(packetId, entry.getCodec(), buf);
-		handleCustomPayload(payload, (PacketHandlerC2S)entry.getHandler(), (ServerPlayNetworkHandler)(Object)this);
+		handleCustomPayload(payload, (PacketHandlerC2S)entry.getHandler(), (ServerGamePacketListenerImpl)(Object)this);
 		ci.cancel();
 		//#endif
 	}
 
 	@Unique
-	private static <P> void handleCustomPayload(FanetlibCustomPayload<P> payload, PacketHandlerC2S<P> handler, ServerPlayNetworkHandler self)
+	private static <P> void handleCustomPayload(FanetlibCustomPayload<P> payload, PacketHandlerC2S<P> handler, ServerGamePacketListenerImpl self)
 	{
 		handler.handle(payload.getUserPacket(), new PacketHandlerContextImpl.C2S(self));
 	}

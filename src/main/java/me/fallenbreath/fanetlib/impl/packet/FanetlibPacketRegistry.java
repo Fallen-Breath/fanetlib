@@ -28,17 +28,16 @@ import me.fallenbreath.fanetlib.api.packet.PacketHandlerS2C;
 import me.fallenbreath.fanetlib.api.packet.PacketId;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
-import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.game.ClientboundCustomPayloadPacket;
+import net.minecraft.network.protocol.game.ServerboundCustomPayloadPacket;
 
 import java.util.Map;
 
 public class FanetlibPacketRegistry<Handler, McPacket>
 {
-	public static final FanetlibPacketRegistry<PacketHandlerC2S<?>, CustomPayloadC2SPacket> C2S_PLAY = new FanetlibPacketRegistry<>(Direction.C2S);
-	public static final FanetlibPacketRegistry<PacketHandlerS2C<?>, CustomPayloadS2CPacket> S2C_PLAY = new FanetlibPacketRegistry<>(Direction.S2C);
+	public static final FanetlibPacketRegistry<PacketHandlerC2S<?>, ServerboundCustomPayloadPacket> C2S_PLAY = new FanetlibPacketRegistry<>(Direction.C2S);
+	public static final FanetlibPacketRegistry<PacketHandlerS2C<?>, ClientboundCustomPayloadPacket> S2C_PLAY = new FanetlibPacketRegistry<>(Direction.S2C);
 
 	private final Direction direction;
 	private final Map<PacketId<?>, RegistryEntry<?, Handler>> registry = Maps.newHashMap();
@@ -82,7 +81,7 @@ public class FanetlibPacketRegistry<Handler, McPacket>
 		FanetlibCustomPayload<P> fcp = new FanetlibCustomPayload<P>(id, codec, packet);
 
 		//#if MC < 12002
-		PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+		FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
 		fcp.write(buf);
 		//#endif
 
@@ -93,7 +92,7 @@ public class FanetlibPacketRegistry<Handler, McPacket>
 			{
 				throw new RuntimeException("Cannot send C2S packet in non-client, current env: " + envType);
 			}
-			return (McPacket)new CustomPayloadC2SPacket(
+			return (McPacket)new ServerboundCustomPayloadPacket(
 					//#if MC >= 12002
 					//$$ fcp
 					//#else
@@ -103,7 +102,7 @@ public class FanetlibPacketRegistry<Handler, McPacket>
 		}
 		else
 		{
-			return (McPacket)new CustomPayloadS2CPacket(
+			return (McPacket)new ClientboundCustomPayloadPacket(
 					//#if MC >= 12002
 					//$$ fcp
 					//#else

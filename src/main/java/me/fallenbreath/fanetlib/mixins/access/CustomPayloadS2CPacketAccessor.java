@@ -20,19 +20,19 @@
 
 package me.fallenbreath.fanetlib.mixins.access;
 
-import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.game.ClientboundCustomPayloadPacket;
+import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 // used in mc < 1.20.2
-@Mixin(CustomPayloadS2CPacket.class)
+@Mixin(ClientboundCustomPayloadPacket.class)
 public interface CustomPayloadS2CPacketAccessor
 {
 	@Accessor
-	Identifier getChannel();
+	ResourceLocation getChannel();
 
 	@Accessor
-	PacketByteBuf getData();
+	FriendlyByteBuf getData();
 }

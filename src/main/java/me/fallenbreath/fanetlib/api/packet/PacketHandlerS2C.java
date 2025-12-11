@@ -20,9 +20,9 @@
 
 package me.fallenbreath.fanetlib.api.packet;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.client.player.LocalPlayer;
 import org.jetbrains.annotations.Nullable;
 
 @FunctionalInterface
@@ -37,11 +37,11 @@ public interface PacketHandlerS2C<P>
 
 	interface Context
 	{
-		MinecraftClient getClient();
+		Minecraft getClient();
 
-		ClientPlayNetworkHandler getNetworkHandler();
+		ClientPacketListener getNetworkHandler();
 
 		@Nullable
-		ClientPlayerEntity getPlayer();
+		LocalPlayer getPlayer();
 	}
 }

@@ -24,23 +24,23 @@ import me.fallenbreath.fanetlib.api.packet.PacketHandlerC2S;
 import me.fallenbreath.fanetlib.api.packet.PacketHandlerS2C;
 import me.fallenbreath.fanetlib.mixins.access.ClientPlayNetworkHandlerAccessor;
 import me.fallenbreath.fanetlib.mixins.access.ServerPlayNetworkHandlerAccessor;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import org.jetbrains.annotations.Nullable;
 
 public class PacketHandlerContextImpl
 {
 	public static class S2C implements PacketHandlerS2C.Context
 	{
-		private final ClientPlayNetworkHandler networkHandler;
-		private final MinecraftClient client;
-		private final ClientPlayerEntity player;
+		private final ClientPacketListener networkHandler;
+		private final Minecraft client;
+		private final LocalPlayer player;
 
-		public S2C(ClientPlayNetworkHandler networkHandler)
+		public S2C(ClientPacketListener networkHandler)
 		{
 			this.networkHandler = networkHandler;
 			this.client = ((ClientPlayNetworkHandlerAccessor)networkHandler).getClient();
@@ -48,20 +48,20 @@ public class PacketHandlerContextImpl
 		}
 
 		@Override
-		public MinecraftClient getClient()
+		public Minecraft getClient()
 		{
 			return this.client;
 		}
 
 		@Override
-		public ClientPlayNetworkHandler getNetworkHandler()
+		public ClientPacketListener getNetworkHandler()
 		{
 			return this.networkHandler;
 		}
 
 		@Override
 		@Nullable
-		public ClientPlayerEntity getPlayer()
+		public LocalPlayer getPlayer()
 		{
 			return this.player;
 		}
@@ -69,11 +69,11 @@ public class PacketHandlerContextImpl
 
 	public static class C2S implements PacketHandlerC2S.Context
 	{
-		private final ServerPlayNetworkHandler networkHandler;
+		private final ServerGamePacketListenerImpl networkHandler;
 		private final MinecraftServer server;
-		private final ServerPlayerEntity player;
+		private final ServerPlayer player;
 
-		public C2S(ServerPlayNetworkHandler networkHandler)
+		public C2S(ServerGamePacketListenerImpl networkHandler)
 		{
 			this.networkHandler = networkHandler;
 			this.server = ((ServerPlayNetworkHandlerAccessor)networkHandler).getServer();
@@ -87,13 +87,13 @@ public class PacketHandlerContextImpl
 		}
 
 		@Override
-		public ServerPlayNetworkHandler getNetworkHandler()
+		public ServerGamePacketListenerImpl getNetworkHandler()
 		{
 			return this.networkHandler;
 		}
 
 		@Override
-		public ServerPlayerEntity getPlayer()
+		public ServerPlayer getPlayer()
 		{
 			return this.player;
 		}

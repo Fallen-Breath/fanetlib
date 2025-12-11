@@ -23,25 +23,25 @@ package me.fallenbreath.fanetlib.mixins.event.client;
 import me.fallenbreath.fanetlib.impl.event.FanetlibClientEventsRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Environment(EnvType.CLIENT)
-@Mixin(ClientPlayNetworkHandler.class)
+@Mixin(ClientPacketListener.class)
 public abstract class ClientPlayNetworkHandlerMixin
 {
 	@Inject(method = "onGameJoin", at = @At("RETURN"))
 	private void onGameJoinHook(CallbackInfo ci)
 	{
-		FanetlibClientEventsRegistry.getInstance().dispatchGameJoinEvent((ClientPlayNetworkHandler)(Object)this);
+		FanetlibClientEventsRegistry.getInstance().dispatchGameJoinEvent((ClientPacketListener)(Object)this);
 	}
 
 	@Inject(method = "onPlayerRespawn", at = @At("RETURN"))
 	private void onPlayerRespawnHook(CallbackInfo ci)
 	{
-		FanetlibClientEventsRegistry.getInstance().dispatchPlayerRespawnEvent((ClientPlayNetworkHandler)(Object)this);
+		FanetlibClientEventsRegistry.getInstance().dispatchPlayerRespawnEvent((ClientPacketListener)(Object)this);
 	}
 }

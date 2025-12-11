@@ -20,15 +20,15 @@
 
 package me.fallenbreath.fanetlib.impl.packet;
 
-import net.minecraft.util.Identifier;
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Backported from mc1.20.2, for easier networking coding
  */
 public interface FakeMcCustomPayload
 {
-	void write(PacketByteBuf buf);
+	void write(FriendlyByteBuf buf);
 
-	Identifier id();
+	ResourceLocation id();
 }
