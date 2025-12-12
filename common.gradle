@@ -34,6 +34,9 @@ dependencies {
 	}
 	modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
 
+	// runtime mods
+	modRuntimeOnly 'me.fallenbreath:mixin-auditor:0.1.0'
+
 	// library mods
 	if (mcVersion < 12005) {
 		include("io.github.llamalad7:mixinextras-fabric:${project.mixinextras_version}")
