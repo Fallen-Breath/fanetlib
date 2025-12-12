@@ -43,7 +43,7 @@ public class PacketHandlerContextImpl
 		public S2C(ClientPacketListener networkHandler)
 		{
 			this.networkHandler = networkHandler;
-			this.client = ((ClientPlayNetworkHandlerAccessor)networkHandler).getClient();
+			this.client = ((ClientPlayNetworkHandlerAccessor)networkHandler).getMinecraft();
 			this.player = this.client.player;
 		}
 

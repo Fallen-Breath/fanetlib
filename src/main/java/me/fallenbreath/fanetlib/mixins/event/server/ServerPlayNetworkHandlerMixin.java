@@ -30,7 +30,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ServerGamePacketListenerImpl.class)
 public abstract class ServerPlayNetworkHandlerMixin
 {
-	@Inject(method = "onDisconnected", at = @At("RETURN"))
+	@Inject(method = "onDisconnect", at = @At("RETURN"))
 	private void onDisconnectedHook(CallbackInfo ci)
 	{
 		FanetlibServerEventsRegistry.getInstance().dispatchPlayerDisconnectEvent((ServerGamePacketListenerImpl)(Object)this);

@@ -33,13 +33,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ClientPacketListener.class)
 public abstract class ClientPlayNetworkHandlerMixin
 {
-	@Inject(method = "onGameJoin", at = @At("RETURN"))
+	@Inject(method = "handleLogin", at = @At("RETURN"))
 	private void onGameJoinHook(CallbackInfo ci)
 	{
 		FanetlibClientEventsRegistry.getInstance().dispatchGameJoinEvent((ClientPacketListener)(Object)this);
 	}
 
-	@Inject(method = "onPlayerRespawn", at = @At("RETURN"))
+	@Inject(method = "handleRespawn", at = @At("RETURN"))
 	private void onPlayerRespawnHook(CallbackInfo ci)
 	{
 		FanetlibClientEventsRegistry.getInstance().dispatchPlayerRespawnEvent((ClientPacketListener)(Object)this);

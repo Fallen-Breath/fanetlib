@@ -31,10 +31,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MinecraftClientMixin
 {
 	@Inject(
-			//#if MC >= 12005
+			//#if MC >= 1.21.11
+			//$$ method = "disconnect(Lnet/minecraft/client/gui/screens/Screen;ZZ)V",
+			//#elseif MC >= 1.20.5
 			//$$ method = "disconnect(Lnet/minecraft/client/gui/screens/Screen;Z)V",
 			//#else
-			method = "disconnect(Lnet/minecraft/client/gui/screen/Screen;)V",
+			method = "clearLevel(Lnet/minecraft/client/gui/screens/Screen;)V",
 			//#endif
 			at = @At("TAIL")
 	)

@@ -51,7 +51,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class ServerPlayNetworkHandlerMixin
 {
 	@SuppressWarnings({"rawtypes", "unchecked"})
-	@Inject(method = "onCustomPayload", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "handleCustomPayload", at = @At("HEAD"), cancellable = true)
 	private void handleCustomPayloadC2SPacket(ServerboundCustomPayloadPacket packet, CallbackInfo ci)
 	{
 		//#if MC >= 12005
@@ -59,7 +59,7 @@ public abstract class ServerPlayNetworkHandlerMixin
 		//#elseif MC >= 12002
 		//$$ ResourceLocation identifier = packet.payload().id();
 		//#else
-		ResourceLocation identifier = ((CustomPayloadC2SPacketAccessor)packet).getChannel();
+		ResourceLocation identifier = ((CustomPayloadC2SPacketAccessor)packet).getIdentifier();
 		//#endif
 
 		PacketId packetId = new PacketId(identifier);

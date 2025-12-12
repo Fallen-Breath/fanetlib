@@ -52,7 +52,7 @@ public class FanetlibClientEventsRegistry
 	{
 		for (GameJoinCallback callback : this.gameJoinCallbacks)
 		{
-			callback.onGameJoin(((ClientPlayNetworkHandlerAccessor)networkHandler).getClient(), networkHandler);
+			callback.onGameJoin(((ClientPlayNetworkHandlerAccessor)networkHandler).getMinecraft(), networkHandler);
 		}
 	}
 
@@ -65,7 +65,7 @@ public class FanetlibClientEventsRegistry
 	{
 		for (PlayerRespawnCallback callback : this.playerRespawnCallbacks)
 		{
-			callback.onPlayerRespawn(((ClientPlayNetworkHandlerAccessor)networkHandler).getClient(), networkHandler);
+			callback.onPlayerRespawn(((ClientPlayNetworkHandlerAccessor)networkHandler).getMinecraft(), networkHandler);
 		}
 	}
 

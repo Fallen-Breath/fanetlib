@@ -53,9 +53,9 @@ public abstract class ClientPlayNetworkHandlerMixin
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Inject(
 			//#if MC >= 12002
-			//$$ method = "onCustomPayload(Lnet/minecraft/network/packet/s2c/common/CustomPayloadS2CPacket;)V",
+			//$$ method = "handleCustomPayload(Lnet/minecraft/network/protocol/common/ClientboundCustomPayloadPacket;)V",
 			//#else
-			method = "onCustomPayload",
+			method = "handleCustomPayload",
 			//#endif
 			at = @At("HEAD"),
 			cancellable = true
@@ -67,7 +67,7 @@ public abstract class ClientPlayNetworkHandlerMixin
 		//#elseif MC >= 12002
 		//$$ ResourceLocation identifier = packet.payload().id();
 		//#else
-		ResourceLocation identifier = ((CustomPayloadS2CPacketAccessor) packet).getChannel();
+		ResourceLocation identifier = ((CustomPayloadS2CPacketAccessor) packet).getIdentifier();
 		//#endif
 
 		PacketId packetId = new PacketId(identifier);
