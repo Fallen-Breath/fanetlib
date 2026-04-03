@@ -44,7 +44,7 @@ jobs:
           fi
         env:
           BUILD_ID: ${{ github.run_number }}
-          BUILD_RELEASE: ${{ inputs.release }}
+          BUILD_RELEASE: ${{ startsWith(github.ref, 'refs/tags/v') }}
 
       - name: Run mixin audit check for Minecraft client
         if: ${{ inputs.mixin_audit }}
