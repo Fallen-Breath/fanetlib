@@ -13,7 +13,7 @@
     "sources": "https://github.com/Fallen-Breath/fanetlib"
   },
 
-  "icon": "assets/fanetlib/icon.png",
+  "icon": "icon.png",
 
   "environment": "*",
   "entrypoints": {
