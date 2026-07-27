@@ -30,9 +30,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(ClientboundCustomPayloadPacket.class)
 public interface CustomPayloadS2CPacketAccessor
 {
-	@Accessor
-	ResourceLocation getIdentifier();
+	@Accessor("identifier")
+	ResourceLocation getIdentifier$fanetlib();
 
-	@Accessor
-	FriendlyByteBuf getData();
+	@Accessor("data")
+	FriendlyByteBuf getData$fanetlib();
 }

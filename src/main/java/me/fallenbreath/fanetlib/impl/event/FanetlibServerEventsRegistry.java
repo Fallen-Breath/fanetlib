@@ -49,7 +49,7 @@ public class FanetlibServerEventsRegistry
 	{
 		for (PlayerJoinCallback callback : this.playerJoinCallbacks)
 		{
-			callback.onPlayerJoin(((ServerPlayNetworkHandlerAccessor)networkHandler).getServer(), networkHandler, networkHandler.player);
+			callback.onPlayerJoin(((ServerPlayNetworkHandlerAccessor)networkHandler).getServer$fanetlib(), networkHandler, networkHandler.player);
 		}
 	}
 
@@ -62,7 +62,7 @@ public class FanetlibServerEventsRegistry
 	{
 		for (PlayerDisconnectCallback callback : this.playerDisconnectCallbacks)
 		{
-			callback.onPlayerDisconnect(((ServerPlayNetworkHandlerAccessor)networkHandler).getServer(), networkHandler, networkHandler.player);
+			callback.onPlayerDisconnect(((ServerPlayNetworkHandlerAccessor)networkHandler).getServer$fanetlib(), networkHandler, networkHandler.player);
 		}
 	}
 }

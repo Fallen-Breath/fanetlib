@@ -59,7 +59,7 @@ public abstract class ServerPlayNetworkHandlerMixin
 		//#elseif MC >= 12002
 		//$$ ResourceLocation identifier = packet.payload().id();
 		//#else
-		ResourceLocation identifier = ((CustomPayloadC2SPacketAccessor)packet).getIdentifier();
+		ResourceLocation identifier = ((CustomPayloadC2SPacketAccessor)packet).getIdentifier$fanetlib();
 		//#endif
 
 		PacketId packetId = new PacketId(identifier);
@@ -76,7 +76,7 @@ public abstract class ServerPlayNetworkHandlerMixin
 		//$$ 	ci.cancel();
 		//$$ }
 		//#else
-		FriendlyByteBuf buf = ((CustomPayloadC2SPacketAccessor)packet).getData();
+		FriendlyByteBuf buf = ((CustomPayloadC2SPacketAccessor)packet).getData$fanetlib();
 		FanetlibCustomPayload<?> payload = new FanetlibCustomPayload<>(packetId, entry.getCodec(), buf);
 		handleCustomPayload(payload, (PacketHandlerC2S)entry.getHandler(), (ServerGamePacketListenerImpl)(Object)this);
 		ci.cancel();

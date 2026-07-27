@@ -38,6 +38,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 )
 public interface ClientPlayNetworkHandlerAccessor
 {
-	@Accessor
-	Minecraft getMinecraft();
+	@Accessor("minecraft")
+	Minecraft getMinecraft$fanetlib();
 }

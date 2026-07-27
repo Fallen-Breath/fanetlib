@@ -38,6 +38,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 )
 public interface ServerPlayNetworkHandlerAccessor
 {
-	@Accessor
-	MinecraftServer getServer();
+	@Accessor("server")
+	MinecraftServer getServer$fanetlib();
 }

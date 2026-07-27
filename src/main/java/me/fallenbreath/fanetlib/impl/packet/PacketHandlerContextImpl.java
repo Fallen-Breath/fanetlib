@@ -43,7 +43,7 @@ public class PacketHandlerContextImpl
 		public S2C(ClientPacketListener networkHandler)
 		{
 			this.networkHandler = networkHandler;
-			this.client = ((ClientPlayNetworkHandlerAccessor)networkHandler).getMinecraft();
+			this.client = ((ClientPlayNetworkHandlerAccessor)networkHandler).getMinecraft$fanetlib();
 			this.player = this.client.player;
 		}
 
@@ -76,7 +76,7 @@ public class PacketHandlerContextImpl
 		public C2S(ServerGamePacketListenerImpl networkHandler)
 		{
 			this.networkHandler = networkHandler;
-			this.server = ((ServerPlayNetworkHandlerAccessor)networkHandler).getServer();
+			this.server = ((ServerPlayNetworkHandlerAccessor)networkHandler).getServer$fanetlib();
 			this.player = this.networkHandler.player;
 		}
 
